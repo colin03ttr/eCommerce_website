@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 
 // Configuration de la base de données
-const sequelize = new Sequelize('mini_site_database', 'mini_site_owner', 'colin', {
+const sequelize = new Sequelize('db', 'postgres', 'root', {
   host: 'localhost',
   dialect: 'postgres', // Utilisation de PostgreSQL
   port: 5432, // Port PostgreSQL par défaut
