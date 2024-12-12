@@ -13,7 +13,7 @@ User.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
+        
     },
     name: {
         type: DataTypes.STRING,
@@ -23,6 +23,7 @@ User.init({
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
+        primaryKey: true,
     },
     password: {
         type: DataTypes.STRING,

@@ -26,6 +26,7 @@ router.get('/api/users', async (req, res) => {
     }
 });
 
+
 // Get a single user by ID
 /**
  * @swagger
@@ -49,10 +50,10 @@ router.get('/api/users', async (req, res) => {
  *       500:
  *         description: Server error.
  */
-router.get('/api/users/:id', async (req, res) => {
-    const { id } = req.params;
+router.get('/api/users/:email', async (req, res) => {
+    const { email } = req.params;
     try {
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(email);
         if (user) {
             res.json(user);
         } else {

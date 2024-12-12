@@ -61,10 +61,10 @@ router.get('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, functio
  *       500:
  *         description: Server error.
  */
-router.get('/api/users/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+router.get('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.params;
     try {
-        const user = yield user_1.default.findByPk(id);
+        const user = yield user_1.default.findByPk(email);
         if (user) {
             res.json(user);
         }

@@ -11,7 +11,6 @@ User.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
     },
     name: {
         type: sequelize_1.DataTypes.STRING,
@@ -21,6 +20,7 @@ User.init({
         type: sequelize_1.DataTypes.STRING,
         unique: true,
         allowNull: false,
+        primaryKey: true,
     },
     password: {
         type: sequelize_1.DataTypes.STRING,

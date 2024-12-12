@@ -20,6 +20,9 @@ export class userService {
   addUser(infos : {name:string,email:string,password:string}): Observable<UserModel> {
     return this.httpClient.post<UserModel>('/api/users', infos);
   }
+  GetUserByEmail(email: string): Observable<UserModel> {
+    return this.httpClient.get<UserModel>(`/api/users/${email}`);
+}
 
   //put method to update a user
   updateUser(user: UserModel): Observable<UserModel> {
