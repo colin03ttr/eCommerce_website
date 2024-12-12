@@ -27,21 +27,21 @@ router.get('/api/users', async (req, res) => {
 });
 
 
-// Get a single user by ID
+// Get a single user by email
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users/{email}:
  *   get:
- *     summary: Get a user by ID.
+ *     summary: Get a user by email.
  *     tags:
  *       - Users
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: email
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID.
+ *         description: User email.
  *     responses:
  *       200:
  *         description: User details.

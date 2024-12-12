@@ -21,7 +21,9 @@ export class userService {
     return this.httpClient.post<UserModel>('/api/users', infos);
   }
   GetUserByEmail(email: string): Observable<UserModel> {
-    return this.httpClient.get<UserModel>(`/api/users/${email}`);
+    const user = this.httpClient.get<UserModel>(`/api/users/${email}`);
+    console.log(user);
+    return user;
 }
 
   //put method to update a user

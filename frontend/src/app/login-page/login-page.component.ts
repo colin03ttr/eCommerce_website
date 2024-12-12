@@ -14,7 +14,7 @@ import {RouterLink, RouterModule,Router} from '@angular/router';
 })
 export class LoginPageComponent {
   private readonly userService = inject(userService);
-  validUserDTO: UserDTO | null = null;
+  validUserDTO: UserDTO = { id: -1, name: '', email: '', password: '' };
   loginUser: { username: string; email: string; password: string } = { username: '', email: '', password: '' };
   showForm: boolean = false;
   onClickDeployForm() {
@@ -31,7 +31,10 @@ export class LoginPageComponent {
     this.userService.GetUserByEmail(this.loginUser.email).subscribe({
       next: data => {
         console.log("finished loaded user");
-        this.validUserDTO = data as UserDTO;
+        this.validUserDTO.id = data.id;
+        this.validUserDTO.name = data.name;
+        this.validUserDTO.email = data.email;
+        this.validUserDTO.password = data.password;
       },
       error: err => {
         console.log('Failed to load Users from Http server', err);
@@ -40,6 +43,11 @@ export class LoginPageComponent {
     
     if(this.validUserDTO != null)
     {
+      console.log("User found");
+      console.log("name entered : ",this.validUserDTO.name);
+      console.log("email entered : ",this.validUserDTO.email);
+      console.log("passwd entered : ",this.validUserDTO.password);
+      console.log("passwd wanted : ",this.loginUser.password);
       if(this.validUserDTO.password == this.loginUser.password){
         console.log("User logged in successfully");
         console.log(this.validUserDTO);
