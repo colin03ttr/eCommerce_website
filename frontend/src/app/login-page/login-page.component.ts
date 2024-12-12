@@ -44,9 +44,12 @@ export class LoginPageComponent {
     if(this.validUserDTO != null)
     {
       console.log("User found");
-      console.log("name entered : ",this.validUserDTO.name);
-      console.log("email entered : ",this.validUserDTO.email);
-      console.log("passwd entered : ",this.validUserDTO.password);
+      console.log("name entered : ",this.loginUser.username);
+      console.log("email entered : ",this.loginUser.email);
+      console.log("passwd entered : ",this.loginUser.password);
+      console.log("name valid : ",this.validUserDTO.name);
+      console.log("email valid : ",this.validUserDTO.email);
+      console.log("passwd valid : ",this.validUserDTO.password);
       console.log("passwd wanted : ",this.loginUser.password);
       if(this.validUserDTO.password == this.loginUser.password){
         console.log("User logged in successfully");
