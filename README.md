@@ -17,7 +17,7 @@ This project is part of the "Node & React Development" course and involves creat
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/colin03ttr/eCommerce_website/blob/develop/README.md
+    git clone https://github.com/colin03ttr/eCommerce_website/
     ```
 2. Navigate to the project directory:
     ```sh
