@@ -17,7 +17,7 @@ This project is part of the "Node & React Development" course and involves creat
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/colin03ttr/eCommerce_website/blob/develop/README.md
     ```
 2. Navigate to the project directory:
     ```sh
@@ -63,11 +63,3 @@ To start the frontend server, run:
 ng serve
 ```
 
-## License
-
-This project is licensed under the MIT License.
-
-## Acknowledgements
-
-- Course: Node & React Development
-- Instructor: [Instructor's Name]
