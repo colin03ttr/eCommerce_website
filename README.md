@@ -37,7 +37,7 @@ This project is part of the "Node & React Development" course and involves creat
 To use PostgreSQL with this project, you must create your own database in PostgreSQL.
 
 After creating the database, change the database in the 'sequelize.ts' file (especially name, user and password) :
-```
+```ts
 const sequelize = new Sequelize('your_database_name', 'your_database_owner', 'owner_password', {
   host: 'localhost',
   dialect: 'postgres', // Utilisation de PostgreSQL
