@@ -1,0 +1,11 @@
+export * from './default.service';
+import { DefaultService } from './default.service';
+export * from './learningFacts.service';
+import { LearningFactsService } from './learningFacts.service';
+export * from './learningPackages.service';
+import { LearningPackagesService } from './learningPackages.service';
+export * from './monitor.service';
+import { MonitorService } from './monitor.service';
+export * from './users.service';
+import { UsersService } from './users.service';
+export const APIS = [DefaultService, LearningFactsService, LearningPackagesService, MonitorService, UsersService];

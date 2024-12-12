@@ -1,27 +1,61 @@
-# MiniSiteNg18
+# Node & React Development Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+This project is part of the "Node & React Development" course and involves creating an e-commerce website. The project combines frontend and backend development using Node.js, Angular, TypeScript, Express, and other technologies.
 
-## Development server
+## Project Structure
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Frontend**: Developed using Angular.
+- **Backend**: Developed using Node.js, Express, and TypeScript.
 
-## Code scaffolding
+## Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node.js
+- npm (Node Package Manager)
+- Angular CLI
 
-## Build
+## Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Clone the repository:
+    ```sh
+    git clone <repository-url>
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd project
+    ```
+3. Install dependencies for both frontend and backend:
+    ```sh
+    npm install
+    ```
 
-## Running unit tests
+## Useful Commands
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### TypeScript Compilation
 
-## Running end-to-end tests
+To compile TypeScript files, run:
+```sh
+npx tsc
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Start Backend Server
 
-## Further help
+To start the backend server, run:
+```sh
+node ./project_backend/dist/app.js
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Start Frontend Server
+
+To start the frontend server, run:
+```sh
+ng serve
+```
+
+## License
+
+This project is licensed under the MIT License.
+
+## Acknowledgements
+
+- Course: Node & React Development
+- Instructor: [Instructor's Name]

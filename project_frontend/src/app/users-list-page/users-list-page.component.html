@@ -1,0 +1,25 @@
+<div>
+    <button (click)="onClickReloadDTO()" class="btn btn-small btn-outline-info">Load Users DTO</button>
+    <ul>
+        <li *ngFor="let user of usersDTO">
+            {{ user.id }}:{{ user.name }}:{{ user.email }}:{{ user.password}}
+        </li>
+    </ul>
+    <button (click)="onClickDeployForm()" class="btn btn-small btn-outline-info">New User</button>
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm" *ngIf="showForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" class="form-control" required [(ngModel)]="newUser.name" name="name" #name="ngModel">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" required [(ngModel)]="newUser.email" name="email" #email="ngModel">
+        <div></div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" class="form-control" required [(ngModel)]="newUser.password" name="password" #password="ngModel">
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Add User</button>
+    </form>
+</div>
