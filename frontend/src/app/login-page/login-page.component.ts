@@ -14,7 +14,7 @@ import {RouterLink, RouterModule,Router} from '@angular/router';
 })
 export class LoginPageComponent {
   private readonly userService = inject(userService);
-  usersDTO: UserDTO[] = [];
+  validUserDTO: UserDTO | null = null;
   loginUser: { username: string; email: string; password: string } = { username: '', email: '', password: '' };
   showForm: boolean = false;
   onClickDeployForm() {
@@ -28,22 +28,27 @@ export class LoginPageComponent {
   onSubmit() {
     console.log(this.loginUser);
     
-    const validuser = this.userService.GetUserByEmail(this.loginUser.email).subscribe
-    /*
-    if (
-      this.loginUser.username === validuser.name &&
-      this.loginUser.email === validuser.email &&
-      this.loginUser.password === validuser.password
-  ) {
-      console.log('Login successful');
-      // Perform additional actions like redirecting or showing a success message
-  } else {
-      console.error('Login failed: Invalid credentials');
-      // Handle invalid credentials (e.g., show an error message in the UI)
-      alert('Invalid username, email, or password. Please try again.');
-  }
-      */
+    this.userService.GetUserByEmail(this.loginUser.email).subscribe({
+      next: data => {
+        console.log("finished loaded user");
+        this.validUserDTO = data as UserDTO;
+      },
+      error: err => {
+        console.log('Failed to load Users from Http server', err);
+      }
+    })
     
+    if(this.validUserDTO != null)
+    {
+      if(this.validUserDTO.password == this.loginUser.password){
+        console.log("User logged in successfully");
+        console.log(this.validUserDTO);
+      }else{
+        console.log("Failed to login User");
+      }
+    }else
+    {
+      console.log("Couldn't get user from server");
+    }
   }
-
 }
