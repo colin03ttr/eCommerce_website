@@ -21,10 +21,15 @@ This project is part of the "Node & React Development" course and involves creat
     ```
 2. Navigate to the project directory:
     ```sh
-    cd project
+    cd eCommerce_website/
     ```
 3. Install dependencies for both frontend and backend:
     ```sh
+    cd frontend
+    npm install
+    ```
+    ```sh
+    cd backend
     npm install
     ```
 
