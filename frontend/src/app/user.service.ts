@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { UserDTO, UserModel } from './DTOs/userDTO';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 
 
@@ -11,25 +11,38 @@ import { map } from 'rxjs/operators';
 })
 export class userService {
   private readonly httpClient = inject(HttpClient);
-
+  private readonly apiUrl = '/api/users';
   getusersDTO(): Observable<UserDTO[]> {
     return this.httpClient.get<UserDTO[]>('/api/users');
   }
 
   //post method to add a new user
-  addUser(infos : {name:string,email:string,password:string}): Observable<UserModel> {
-    return this.httpClient.post<UserModel>('/api/users', infos);
+  addUser(infos : {name:string,email:string,password:string}): Observable<UserDTO> 
+  {
+    return this.httpClient.post<UserDTO>('/api/users', infos);
   }
-  GetUserByEmail(email: string): Observable<UserModel> {
-    const user = this.httpClient.get<UserModel>(`/api/users/${email}`);
-    console.log(user);
-    return user;
-}
+  GetUserByEmail(email: string): Observable<UserDTO> 
+  {
+    console.log(email);
+    const encodedEmail = encodeURIComponent(email);
+    return this.httpClient.get<UserDTO>(`/api/users/${encodedEmail}`).pipe(
+        catchError((error) => {
+            console.error('Error fetching user:', error);
+            return throwError(() => new Error('Failed to fetch user'));
+        })
+    );
+  }
+
 
   //put method to update a user
-  updateUser(user: UserModel): Observable<UserModel> {
-    return this.httpClient.put<UserModel>('/api/users', user);
+  updateUser(user: UserDTO): Observable<UserDTO> {
+    return this.httpClient.put<UserDTO>('/api/users', user);
   }
 
   constructor() { }
+  registerUser(user: { name: string; email: string; password: string }): Observable<any> 
+  {
+    console.log("Sending registration data to server:", user);
+    return this.httpClient.post<any>(`${this.apiUrl}/register`, user);
+  }
 }

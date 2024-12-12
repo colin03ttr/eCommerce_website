@@ -7,6 +7,8 @@ import { LessonSearchPageComponent } from './lesson-search-page/lesson-search-pa
 import { LearningpackageListPageComponent } from './learningpackage-list-page/learningpackage-list-page.component';
 import { UsersListPageComponent } from './users-list-page/users-list-page.component';
 import {LoginPageComponent } from './login-page/login-page.component';
+import {RegisterPageComponent } from './register-page/register-page.component';
+import { LoginOrRegisterComponent } from './login-or-register/login-or-register.component';
 
 export const routes: Routes = [
     {path: 'lesson-edit-form', component: LessonEditFormComponent},
@@ -16,5 +18,7 @@ export const routes: Routes = [
     {path: 'lesson-search', component: LessonSearchPageComponent},
     {path:'learningpackage', component: LearningpackageListPageComponent},
     {path: 'users', component: UsersListPageComponent},
-    {path: 'login-page', component: LoginPageComponent}
+    {path: 'login-page', component: LoginPageComponent},
+    {path: 'register-page', component: RegisterPageComponent},
+    { path: 'login-or-register', component: LoginOrRegisterComponent },
 ];

@@ -1,0 +1,22 @@
+<form (ngSubmit)="onRegister()" #registerForm="ngForm" class="bg-white p-4 rounded shadow-sm" style="width: 100%; max-width: 400px;">
+    <h2 class="text-center mb-4">Register</h2>
+    <div class="form-group mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" class="form-control" required [(ngModel)]="registerUser.name" name="name" #name="ngModel" placeholder="Enter your name">
+    </div>
+    <div class="form-group mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-control" required [(ngModel)]="registerUser.email" name="email" #email="ngModel" placeholder="Enter your email">
+    </div>
+    <div class="form-group mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-control" required [(ngModel)]="registerUser.password" name="password" #password="ngModel" placeholder="Enter your password">
+    </div>
+    <div *ngIf="successMessage" class="alert alert-success mt-3" role="alert">
+        {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+        {{ errorMessage }}
+    </div>
+    <button type="submit" class="btn btn-primary w-100" [disabled]="!registerForm.form.valid">Register</button>
+</form>
