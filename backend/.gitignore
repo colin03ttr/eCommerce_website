@@ -1,0 +1,12 @@
+# npm 
+node_modules
+package-lock.json
+*.log
+
+# vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*

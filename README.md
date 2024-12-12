@@ -28,6 +28,18 @@ This project is part of the "Node & React Development" course and involves creat
     npm install
     ```
 
+## Postgres Database
+To use PostgreSQL with this project, you must create your own database in PostgreSQL.
+
+After creating the database, compile the TypeScript files using:
+```sh
+npx tsc
+```
+Additionally, a `seed.ts` file is provided in the backend to fill the database with initial data. Execute this file by running:
+```sh
+node ./project_backend/dist/seed.js
+```
+
 ## Useful Commands
 
 ### TypeScript Compilation
