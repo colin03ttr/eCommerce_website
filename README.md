@@ -31,13 +31,22 @@ This project is part of the "Node & React Development" course and involves creat
 ## Postgres Database
 To use PostgreSQL with this project, you must create your own database in PostgreSQL.
 
-After creating the database, compile the TypeScript files using:
+After creating the database, change the database in the 'sequelize.ts' file (especially name, user and password) :
+```
+const sequelize = new Sequelize('your_database_name', 'your_database_owner', 'owner_password', {
+  host: 'localhost',
+  dialect: 'postgres', // Utilisation de PostgreSQL
+  port: 5432, // Port PostgreSQL par défaut
+  logging: false, // Désactivez pour éviter trop de logs
+});
+```
+compile the TypeScript files using:
 ```sh
 npx tsc
 ```
 Additionally, a `seed.ts` file is provided in the backend to fill the database with initial data. Execute this file by running:
 ```sh
-node ./project_backend/dist/seed.js
+node ./dist/seed.js
 ```
 
 ## Useful Commands
@@ -53,7 +62,7 @@ npx tsc
 
 To start the backend server, run:
 ```sh
-node ./project_backend/dist/app.js
+node ./dist/app.js
 ```
 
 ### Start Frontend Server
