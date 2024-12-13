@@ -1,39 +1,35 @@
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Nos Montres</h1>
-    <div class="row g-4">
-      
-      <div class="col-md-4">
-        <div class="card product-card shadow-sm">
-          <img src="https://guildedesorfevres.fr/17084-thumbnail_product/montre-tissot-en-acier-acier.jpg" class="card-img-top product-image" alt="Montre 1">
-          <div class="card-body text-center">
-            <h5 class="card-title">Tissot Collection Gentleman</h5>
-            <p class="card-text text-muted">Prix : 475€</p>
-            <button class="btn btn-primary">Voir Détails</button>
-          </div>
+  <h1 class="text-center mb-4">Nos Montres</h1>
+  <div class="row g-4">
+    <ul *ngFor="let watch of watchesDTO" class="col-md-4">
+      <li style="list-style-type: none;">
+        <div class="image-container">
+          <img [src]="watch.imageurl" class="card-img-top product-image">
         </div>
-      </div>
-      
-      <div class="col-md-4">
-        <div class="card product-card shadow-sm">
-          <img src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MXLN3ref_VW_34FR+watch-case-42-aluminum-rosegold-nc-s10_VW_34FR+watch-face-42-aluminum-rosegold-s10_VW_34FR?wid=2000&hei=2000&fmt=png-alpha&.v=1724336463964" class="card-img-top product-image" alt="Montre 2">
-          <div class="card-body text-center">
-            <h5 class="card-title">Apple Watch</h5>
-            <p class="card-text text-muted">Prix : 449€</p>
-            <button class="btn btn-primary">Voir Détails</button>
-          </div>
+        <div class="card-body text-center">
+          <h5 class="card-title">{{watch.name}}</h5>
+          <p class="card-text text-muted">Prix : {{watch.price}}€</p>
+          <button class="btn btn-primary">Voir Détails</button>
         </div>
-      </div>
-      
-      <div class="col-md-4">
-        <div class="card product-card shadow-sm">
-          <img src="https://arije.paris/wp-content/uploads/rolex/watch_assets/upright_watches_assets/desktop/m126598tbr-0001_drp-upright-bba-with-shadow.webp" class="card-img-top product-image" alt="Montre 3">
-          <div class="card-body text-center">
-            <h5 class="card-title">Rolex Cosmograph Daytona</h5>
-            <p class="card-text text-muted">Prix : 11 100€</p>
-            <button class="btn btn-primary">Voir Détails</button>
-          </div>
-        </div>
-      </div>
-      <!-- Ajoutez plus de montres ici -->
-    </div>
+      </li>
+    </ul>
   </div>
+</div>
+
+<style>
+  .image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 aspect ratio */
+    overflow: hidden;
+  }
+
+  .image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the container */
+  }
+</style>

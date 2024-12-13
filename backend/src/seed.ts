@@ -2,8 +2,7 @@
 
 
 import sequelize from './sequelize'; // Connexion à la DB
-import LearningPackage from './models/LearningPackage'; // Modèle Sequelize
-import LearningFact from './models/learningFact'; // Modèle Sequelize
+import Watch from './models/watch'; // Modèle Sequelize
 
 // Fonction pour insérer des données
 const seedDatabase = async () => {
@@ -11,30 +10,54 @@ const seedDatabase = async () => {
         // Synchroniser les modèles (si nécessaire)
         await sequelize.sync();
 
-        // Insérer des données dans la table
-        await LearningPackage.bulkCreate([
-            { id: 1, name: "Learn React", description: "Frontend library", category: "Web Development", targetAudience: "Developers", difficultyLevel: 3 },
-            { id: 2, name: "Learn Vue.js", description: "Progressive JavaScript framework", category: "Web Development", targetAudience: "Developers", difficultyLevel: 4 },
-            { id: 3, name: "Learn Python", description: "General-purpose programming language", category: "Programming", targetAudience: "Beginners", difficultyLevel: 2 },
-            { id: 4, name: "Learn Java", description: "Object-oriented programming language", category: "Programming", targetAudience: "Intermediate Developers", difficultyLevel: 5 }
+        // Insert data into the table
+        await Watch.bulkCreate([
+            {
+                name: 'Tissot Collection Gentleman',
+                description: 'Luxury watch',
+                price: 475,
+                imageurl: 'https://guildedesorfevres.fr/17084-thumbnail_product/montre-tissot-en-acier-acier.jpg',
+                brand: 'Tissot',
+            },
+            {
+                name: 'Apple Watch',
+                description: 'Connected watch',
+                price: 449,
+                imageurl: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MXLN3ref_VW_34FR+watch-case-42-aluminum-rosegold-nc-s10_VW_34FR+watch-face-42-aluminum-rosegold-s10_VW_34FR?wid=2000&hei=2000&fmt=png-alpha&.v=1724336463964',
+                brand: 'Apple',
+            },
+            {
+                name: 'Rolex Cosmograph Daytona',
+                description: 'Luxury watch',
+                price: 11100,
+                imageurl: 'https://arije.paris/wp-content/uploads/rolex/watch_assets/upright_watches_assets/desktop/m126598tbr-0001_drp-upright-bba-with-shadow.webp',
+                brand: 'Rolex',
+            },
+            {
+                name: 'Omega Seamaster',
+                description: 'Diver watch',
+                price: 5200,
+                imageurl: 'https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-diver-300m-co-axial-master-chronometer-chronograph-44-mm-21030445103001-922b75.png?w=1100',
+                brand: 'Omega',
+            },
+            {
+                name: 'Tag Heuer Carrera',
+                description: 'Sport watch',
+                price: 4500,
+                imageurl: 'https://www.tagheuer.com/on/demandware.static/-/Library-Sites-TagHeuer-Shared/default/dwcac44508/images/sprites/Carrera/CBU2050.FT6273/RTW_backUp.jpg',
+                brand: 'Tag Heuer',
+            },
+            {
+                name: 'Casio F91W',
+                description: 'Affordable digital watch',
+                price: 20,
+                imageurl: 'https://www.casio.com/content/dam/casio/product-info/locales/fr/fr/timepiece/product/watch/F/F9/F91/F-91W-1/assets/F-91W-1_Seq1.png.transform/main-visual-sp/image.png',
+                brand: 'Casio',
+            }
         ]);
-        console.log('Les données LearningPackage ont été insérées avec succès.');
-        await LearningFact.bulkCreate([
-            { id: 1, packageId: 1, fact: "React is a JavaScript library for building user interfaces." },
-            { id: 2, packageId: 1, fact: "React allows developers to create large web applications that can update and render efficiently." },
-            { id: 3, packageId: 1, fact: "React components can be reused, making development faster and more efficient." },
-            { id: 4, packageId: 2, fact: "Vue.js is a progressive JavaScript framework for building user interfaces." },
-            { id: 5, packageId: 2, fact: "Vue.js is designed to be incrementally adoptable." },
-            { id: 6, packageId: 2, fact: "Vue.js features an approachable core library that focuses on the view layer only." },
-            { id: 7, packageId: 3, fact: "Python is a high-level, interpreted programming language." },
-            { id: 8, packageId: 3, fact: "Python is known for its readability and simplicity." },
-            { id: 9, packageId: 3, fact: "Python supports multiple programming paradigms, including procedural, object-oriented, and functional programming." },
-            { id: 10, packageId: 4, fact: "Java is a high-level, class-based, object-oriented programming language." },
-            { id: 11, packageId: 4, fact: "Java is designed to have as few implementation dependencies as possible." },
-            { id: 12, packageId: 4, fact: "Java applications are typically compiled to bytecode that can run on any Java virtual machine (JVM)." }
-        ]);
-        console.log('Les données LearningFact ont été insérées avec succès.');
-        process.exit(0); // Quitter le script
+
+        console.log('Data has been successfully inserted.');
+        process.exit(0); // Exit the script
     } catch (err) {
         console.error('Erreur lors de l\'insertion des données :', err);
         process.exit(1); // Quitter avec une erreur

@@ -2,7 +2,8 @@ import express from 'express';
 import sequelize from './sequelize';
 import learningPackagesRoutes from './routes/learningPackage';
 import learningFactsRoutes from './routes/learningFact';
-import user from './routes/user';
+import userRoutes from './routes/user';
+import watchRoutes from './routes/watch';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
@@ -40,7 +41,8 @@ app.get('/swagger.json', (req, res) => {
 // Use the routes
 app.use(learningPackagesRoutes);
 app.use(learningFactsRoutes);
-app.use(user)
+app.use(userRoutes);
+app.use(watchRoutes);
 
 
 /**

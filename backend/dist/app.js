@@ -8,6 +8,7 @@ const sequelize_1 = __importDefault(require("./sequelize"));
 const learningPackage_1 = __importDefault(require("./routes/learningPackage"));
 const learningFact_1 = __importDefault(require("./routes/learningFact"));
 const user_1 = __importDefault(require("./routes/user"));
+const watch_1 = __importDefault(require("./routes/watch"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const PORT = 3000;
@@ -40,6 +41,7 @@ app.get('/swagger.json', (req, res) => {
 app.use(learningPackage_1.default);
 app.use(learningFact_1.default);
 app.use(user_1.default);
+app.use(watch_1.default);
 /**
  * @openapi
  * /api/liveliness:
