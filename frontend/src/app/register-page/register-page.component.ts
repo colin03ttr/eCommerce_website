@@ -27,18 +27,27 @@ export class RegisterPageComponent {
     console.log("Email: ", this.registerUser.email);
     console.log("Password: ", this.registerUser.password);
 
-    this.userService.addUser(this.registerUser).subscribe({
+    // Préparer les données de l'utilisateur avec les champs supplémentaires
+    const userToRegister: UserDTO = {
+      ...this.registerUser,
+      id: -1, // ID par défaut
+      solde: 0, // Solde initial
+      creationdate: new Date(), 
+      discount: 0 
+    };
+
+    this.userService.addUser(userToRegister).subscribe({
       next: () => {
         console.log("User registered successfully.");
         this.successMessage = "Registration successful! You can now log in.";
-        this.errorMessage = null; // Réinitialisation du message d'erreur
+        this.errorMessage = null; 
         setTimeout(() => {
-          this.router.navigate(['/login-page']); // Redirige vers la page de login après succès
-        }, 2000); // Redirection après 2 secondes
+          this.router.navigate(['/login-page']); 
+        }, 2000); 
       },
       error: err => {
         console.error("Failed to register user:", err);
-        this.successMessage = null; // Réinitialisation du message de succès
+        this.successMessage = null; 
         this.errorMessage = "Failed to register user. Please try again later.";
       }
     });

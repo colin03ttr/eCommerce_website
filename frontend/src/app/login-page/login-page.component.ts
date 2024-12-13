@@ -15,7 +15,7 @@ import { RouterLink, RouterModule, Router } from '@angular/router';
 export class LoginPageComponent {
   private readonly userService = inject(userService);
   private readonly router = inject(Router);
-  validUserDTO: UserDTO = { id: -1, name: '', email: '', password: '' };
+  validUserDTO: UserDTO = { id: -1, name: '', email: '', password: '',solde:0,creationdate : new Date(),discount: 0   };
   loginUser: { username: string; email: string; password: string } = { username: '', email: '', password: '' };
   showForm: boolean = false;
   errorMessage: string | null = null;
