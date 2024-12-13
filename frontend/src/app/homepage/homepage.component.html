@@ -1,4 +1,28 @@
-<div *ngIf="this.sessionStatus">
-    <h2>Welcome, {{ this.loggedUser?.name }}!</h2>
-    <p class="text-success">{{ this.sessionStatus }}</p>
+
+<div class="background">
+    <h1 style="text-align: center; font-size: 4em;">WatchShop Website</h1>
+    <div *ngIf="this.sessionStatus">
+        <h2>Welcome, {{ this.loggedUser?.name }}!</h2>
+        <p class="text-success">Session status : {{ this.sessionStatus }}</p>
+    </div>
 </div>
+<style>
+    .background {
+        background-image: url('https://rotation-horlogere.com/cdn/shop/articles/94308352-7992-4172-a320-7adc829f44d8.webp?v=1707125023&width=2048');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+    }
+    .background::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for transparency */
+        z-index: 1; /* Ensure the overlay is behind the content */
+    }
+    .background > * {
+        position: relative;
+        z-index: 2; /* Ensure the content is above the overlay */
+    }
+</style>

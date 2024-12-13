@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDTO } from './DTOs/userDTO';
+import { isDate } from 'util/types';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,10 @@ export class UserSettingsService{
         const parsedData = JSON.parse(sessionData);
         const isActive = new Date().getTime() < parsedData.expiry;
         console.log(`Session active: ${isActive}`);
+        const timeRemaining = parsedData.expiry - new Date().getTime();
+        const minutes = Math.floor(timeRemaining / 60000);
+        const seconds = Math.floor((timeRemaining % 60000) / 1000);
+        console.log(`Session expires in: ${minutes} minutes and ${seconds} seconds`);
         return isActive;
       }
       console.log("No active session found.");

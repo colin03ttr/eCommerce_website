@@ -1,18 +1,20 @@
-<div class="container mt-5">
-  <h1 class="text-center mb-4">Nos Montres</h1>
-  <div class="row g-4">
-    <ul *ngFor="let watch of watchesDTO" class="col-md-4">
-      <li style="list-style-type: none;">
-        <div class="image-container">
-          <img [src]="watch.imageurl" class="card-img-top product-image">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title">{{watch.name}}</h5>
-          <p class="card-text text-muted">Prix : {{watch.price}}€</p>
-          <button class="btn btn-primary" (click)="viewDetails(watch.id)">Voir Détails</button>
-        </div>
-      </li>
-    </ul>
+<div class="background">
+  <div class="container">
+    <h1 class="text-center mb-4">Nos Montres</h1>
+    <div class="row g-4">
+      <ul *ngFor="let watch of watchesDTO" class="col-md-4">
+        <li style="list-style-type: none;">
+          <div class="image-container">
+            <img [src]="watch.imageurl" class="card-img-top product-image">
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">{{watch.name}}</h5>
+            <p class="card-text text-muted">Prix : {{watch.price}}€</p>
+            <button class="btn btn-primary" (click)="viewDetails(watch.id)">Voir Détails</button>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -31,6 +33,24 @@
     width: 100%;
     height: 100%;
     object-fit: cover; /* Ensures the image covers the container */
+  }
+  .background {
+      background-image: url('https://rotation-horlogere.com/cdn/shop/articles/94308352-7992-4172-a320-7adc829f44d8.webp?v=1707125023&width=2048');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+  }
+  .background::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for transparency */
+      z-index: 1; /* Ensure the overlay is behind the content */
+  }
+  .background > * {
+      position: relative;
+      z-index: 2; /* Ensure the content is above the overlay */
   }
 </style>
 <router-outlet></router-outlet>

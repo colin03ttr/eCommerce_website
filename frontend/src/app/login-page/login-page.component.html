@@ -5,7 +5,7 @@
 </div>
 
 <ng-template #loginForm>
-    <div class="form-container">
+    <div class="form-container background">
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="bg-white p-4 rounded shadow-sm" style="width: 100%; max-width: 400px;">
             <h2 class="text-center mb-4">Login</h2>
             <div class="form-group mb-3">
@@ -37,5 +37,23 @@
         background-image: url('https://via.placeholder.com/1920x1080'); /* Image en arrière-plan */
         background-size: cover; /* Ajuste la taille de l'image pour couvrir tout l'écran */
         background-position: center; /* Centre l'image */
+    }
+    .background {
+        background-image: url('https://rotation-horlogere.com/cdn/shop/articles/94308352-7992-4172-a320-7adc829f44d8.webp?v=1707125023&width=2048');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+    }
+    .background::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5); /* Adjust the alpha value for transparency */
+        z-index: 1; /* Ensure the overlay is behind the content */
+    }
+    .background > * {
+        position: relative;
+        z-index: 2; /* Ensure the content is above the overlay */
     }
 </style>

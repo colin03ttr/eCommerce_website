@@ -16,7 +16,7 @@ const seedDatabase = async () => {
                 name: 'Tissot Collection Gentleman',
                 description: 'Luxury watch',
                 price: 475,
-                imageurl: 'https://guildedesorfevres.fr/17084-thumbnail_product/montre-tissot-en-acier-acier.jpg',
+                imageurl: 'https://assets.tissotwatches.com/transform/Extend/5f4b20a5-02aa-4d03-8eed-b0b1262fc796/T127_410_11_041_00',
                 brand: 'Tissot',
             },
             {
@@ -44,7 +44,7 @@ const seedDatabase = async () => {
                 name: 'Tag Heuer Carrera',
                 description: 'Sport watch',
                 price: 4500,
-                imageurl: 'https://www.tagheuer.com/on/demandware.static/-/Library-Sites-TagHeuer-Shared/default/dwcac44508/images/sprites/Carrera/CBU2050.FT6273/RTW_backUp.jpg',
+                imageurl: 'https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dwdb18e51e/TAG_Heuer_Carrera/CBN2A1M.FC6526/CBN2A1M.FC6526_1000.png',
                 brand: 'Tag Heuer',
             },
             {

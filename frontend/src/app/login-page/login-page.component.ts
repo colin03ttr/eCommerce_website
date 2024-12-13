@@ -57,8 +57,8 @@ export class LoginPageComponent {
       }
     });
     
-          this.router.navigate(['/']); 
-          console.log("wow, c'est bon on a bougé");
+    this.router.navigate(['/']); 
+    console.log("wow, c'est bon on a bougé");
           
   }
 
