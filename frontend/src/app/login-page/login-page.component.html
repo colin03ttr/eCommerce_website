@@ -2,9 +2,9 @@
     <h2>Welcome, {{ getLoggedUser()?.name }}!</h2>
     <p class="text-success">{{ sessionStatus }}</p>
     <button class="btn btn-danger" (click)="logout()">Logout</button>
-  </div>
-  
-  <ng-template #loginForm>
+</div>
+
+<ng-template #loginForm class="form-container">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="bg-white p-4 rounded shadow-sm" style="width: 100%; max-width: 400px;">
         <h2 class="text-center mb-4">Login</h2>
         <div class="form-group mb-3">
@@ -24,5 +24,12 @@
         </div>
         <button type="submit" class="btn btn-primary w-100" [disabled]="!loginForm.form.valid">Login</button>
     </form>
-  </ng-template>
-  
+</ng-template>
+
+<style>
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
