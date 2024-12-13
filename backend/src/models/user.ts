@@ -29,6 +29,26 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    solde: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue:0,
+    },
+    creationdate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW, // Définit la valeur par défaut à la date/heure actuelle
+    },
+    
+    discount: {
+        type:DataTypes.INTEGER,
+        allowNull:false,
+        defaultValue:0,
+
+
+
+    }
+    
 }, {
     sequelize,
     tableName: 'users',
