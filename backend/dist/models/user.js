@@ -26,6 +26,21 @@ User.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    solde: {
+        type: sequelize_1.DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0,
+    },
+    creationdate: {
+        type: sequelize_1.DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize_1.DataTypes.NOW,
+    },
+    discount: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    }
 }, {
     sequelize: sequelize_2.default,
     tableName: 'users',

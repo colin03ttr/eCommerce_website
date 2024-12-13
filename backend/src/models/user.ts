@@ -7,6 +7,10 @@ class User extends Model{
     public name!: string;
     public email!: string;
     public password!: string;
+    public solde!: number;
+    public creationdate!: Date;
+    public discount!: number;
+
 }
 
 User.init({
@@ -30,14 +34,14 @@ User.init({
         allowNull: false,
     },
     solde: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue:0,
     },
     creationdate: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW, // Définit la valeur par défaut à la date/heure actuelle
+        defaultValue: DataTypes.NOW, 
     },
     
     discount: {
