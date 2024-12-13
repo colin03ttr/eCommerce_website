@@ -60,9 +60,6 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
     return this.userName !== null;
   }
 
-  /**
-   * Redirige vers la page login-or-register.
-   */
  
   /**
    * Déconnecte l'utilisateur.
@@ -72,5 +69,6 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
     localStorage.removeItem('userSession');
     this.userName = null;
     this.router.navigate(['/']); // Redirige vers la page d'accueil
+    window.location.reload();
   }
 }

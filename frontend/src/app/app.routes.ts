@@ -11,6 +11,7 @@ import {RegisterPageComponent } from './register-page/register-page.component';
 import { LoginOrRegisterComponent } from './login-or-register/login-or-register.component';
 import { ProductPageComponent } from './products/products.component';
 import { ProductDetailsComponent } from './detailed-product/detailed-product.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 export const routes: Routes = [
     {path: 'lesson-edit-form', component: LessonEditFormComponent},
@@ -24,5 +25,6 @@ export const routes: Routes = [
     {path: 'register-page', component: RegisterPageComponent},
     {path: 'login-or-register', component: LoginOrRegisterComponent },
     {path: 'products', component: ProductPageComponent },
-    {path: 'detailed-product/:id', component: ProductDetailsComponent }
+    {path: 'detailed-product/:id', component: ProductDetailsComponent },
+    {path: '', component: HomepageComponent}
 ];

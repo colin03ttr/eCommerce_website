@@ -9,7 +9,5 @@ import { UserSettingsService } from '../user-settings.service';
   styleUrl: './lesson-list-page.component.css'
 })
 export class LessonListPageComponent {
-  constructor(private userSettingsService: UserSettingsService) {
-    console.log("get lastLessonId:", userSettingsService.lastLessonId);
-   }
+  
 }

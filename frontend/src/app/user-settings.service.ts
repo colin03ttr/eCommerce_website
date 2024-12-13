@@ -1,32 +1,74 @@
-import { Injectable } from '@angular/core';
-
-const STORAGE_KEY = 'lesson-app:lastSessionId';
-interface StoredInfo { 
-  lastLessonId?: number|null;
-}
+import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserDTO } from './DTOs/userDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class UserSettingsService {
-  private _lastLessonId: number|null = null;
-  get lastLessonId(): number|null { return this._lastLessonId; }
-  set lastLessonId(p: number|null) { this._lastLessonId = p; this.saveInfoToLocalStorage(); }
-  constructor() { 
-    const storedInfo = this.loadInfoFromLocalStorage();
-    this.lastLessonId = storedInfo.lastLessonId || null;
+export class UserSettingsService{
+  sessionStatus: string | null = null;
+  private readonly router = inject(Router);
+
+  private isLocalStorageAvailable(): boolean {
+    try {
+      const testKey = '__test__';
+      localStorage.setItem(testKey, testKey);
+      localStorage.removeItem(testKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
-  loadInfoFromLocalStorage(): StoredInfo {
-    const storedJson = window.localStorage.getItem(STORAGE_KEY);
-    let res = (storedJson)? JSON.parse(storedJson) : { lastLessonId: null};
-    console.log('reading localStorage item ' + STORAGE_KEY, res)
-    return res;
+
+  startUserSession(user: UserDTO) {
+    const sessionData = {
+      user,
+      expiry: new Date().getTime() + 60 * 60 * 1000 
+    };
+    localStorage.setItem('userSession', JSON.stringify(sessionData));
+    console.log("Session data saved to localStorage:", sessionData);
   }
-  saveInfoToLocalStorage() {
-    const info: StoredInfo = { lastLessonId: this.lastLessonId };
-    let json = JSON.stringify(info);
-    console.log('writing localStorage item ' + STORAGE_KEY, info)
-    window.localStorage.setItem(STORAGE_KEY, json);
+
+  isSessionActive(): boolean {
+    if(this.isLocalStorageAvailable()) {
+      const sessionData = localStorage.getItem('userSession');
+      if (sessionData) {
+        const parsedData = JSON.parse(sessionData);
+        const isActive = new Date().getTime() < parsedData.expiry;
+        console.log(`Session active: ${isActive}`);
+        return isActive;
+      }
+      console.log("No active session found.");
+      return false;
+    }else { return false; }
   }
+
+  getLoggedUser(): UserDTO | null {
+    if(this.isLocalStorageAvailable()) {
+      const sessionData = localStorage.getItem('userSession');
+      if (sessionData) {
+        const parsedData = JSON.parse(sessionData);
+        if (new Date().getTime() < parsedData.expiry) {
+          console.log("Logged user retrieved from session:", parsedData.user);
+          return parsedData.user;
+        } else {
+          console.log("Session expired. Clearing session data.");
+          localStorage.removeItem('userSession');
+        }
+      } else {
+        console.log("No session data found.");
+      }
+    }
+    return null;
+  }
+
+  logout() {
+      if(this.isLocalStorageAvailable()) {
+      console.log("Logging out user.");
+      localStorage.removeItem('userSession');
+      this.sessionStatus = "No active session";
+      this.router.navigate(['/']); 
+    }
+  } 
 }

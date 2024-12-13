@@ -1,0 +1,33 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { UserDTO } from '../DTOs/userDTO';
+import { UserSettingsService } from '../user-settings.service';
+
+@Component({
+  selector: 'app-homepage',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './homepage.component.html',
+  styleUrl: './homepage.component.css'
+})
+export class HomepageComponent {
+  private readonly router = inject(Router);
+  private readonly userSettingsService = inject(UserSettingsService);
+  title = 'ecommerce_webapp';
+  sessionStatus : boolean | null = null;
+  loggedUser: UserDTO | null = null;
+  ngOnInit(): void {
+    this.sessionStatus = this.userSettingsService.isSessionActive();
+    if(this.sessionStatus)
+    {this.loggedUser = this.getLoggedUser();}
+  }
+
+  isSessionActive(): boolean {
+    return this.userSettingsService.isSessionActive();
+  }
+
+  getLoggedUser(): UserDTO | null {
+    return this.userSettingsService.getLoggedUser(); 
+  }
+}
