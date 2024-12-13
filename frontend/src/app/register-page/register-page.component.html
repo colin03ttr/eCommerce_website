@@ -1,4 +1,3 @@
-
 <div class="form-container">
     <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="bg-white p-4 rounded shadow-sm" style="width: 100%; max-width: 400px;">
         <h2 class="text-center mb-4">Register</h2>
@@ -29,5 +28,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 100vh; /* Hauteur de l'écran */
+        background-image: url('https://via.placeholder.com/1920x1080'); /* Image en arrière-plan */
+        background-size: cover; /* Ajuste la taille de l'image pour couvrir tout l'écran */
+        background-position: center; /* Centre l'image */
     }
 </style>
