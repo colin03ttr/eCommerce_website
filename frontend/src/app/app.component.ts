@@ -13,7 +13,7 @@ import { LearningpackageService } from './learningpackage.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'mini-site_ng18';
+  title = 'ecommerce_webapp';
   constructor() {
     console.log('AppComponent.constructor()');
   }

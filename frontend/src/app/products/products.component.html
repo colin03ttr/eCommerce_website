@@ -9,7 +9,7 @@
         <div class="card-body text-center">
           <h5 class="card-title">{{watch.name}}</h5>
           <p class="card-text text-muted">Prix : {{watch.price}}€</p>
-          <button class="btn btn-primary">Voir Détails</button>
+          <button class="btn btn-primary" (click)="viewDetails(watch.id)">Voir Détails</button>
         </div>
       </li>
     </ul>
@@ -33,3 +33,4 @@
     object-fit: cover; /* Ensures the image covers the container */
   }
 </style>
+<router-outlet></router-outlet>

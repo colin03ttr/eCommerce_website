@@ -1,0 +1,15 @@
+<button class="btn btn-primary" (click)="goBack()">Retour</button>
+<div *ngIf="watch" style="display: flex; align-items: center;">
+    <div style="flex: 1;">
+        <img [src]="watch.imageurl" style="max-width: 100%; height: auto;"/>
+    </div>
+    <div style="flex: 2; padding-left: 20px;">
+        <h1>{{ watch.name }}</h1>
+        <p>{{ watch.description }}</p>
+        <p><span style="font-size: 2em;">${{ watch.price.toFixed(2) }}</span></p>
+        <p><strong>Brand: </strong> {{ watch.brand }}</p>
+    </div>
+</div>
+<div *ngIf="!watch">
+    <p>Loading watch details...</p>
+</div>
