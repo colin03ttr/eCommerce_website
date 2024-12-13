@@ -16,7 +16,7 @@ export class RegisterPageComponent {
   private readonly userService = inject(userService);
   private readonly router = inject(Router);
 
-  registerUser: { name: string; email: string; password: string } = { name: '', email: '', password: '' };
+  registerUser: { name: string; email: string; password: string, solde: number, creationdate : Date, discount: number } = { name: '', email: '', password: '',solde:0, creationdate : new Date(), discount: 0  };
   successMessage: string | null = null; // Pour afficher un message de succès
   errorMessage: string | null = null; // Pour afficher un message d'erreur
 
@@ -26,28 +26,22 @@ export class RegisterPageComponent {
     console.log("Name: ", this.registerUser.name);
     console.log("Email: ", this.registerUser.email);
     console.log("Password: ", this.registerUser.password);
+    console.log("Balance: ", this.registerUser.solde);
+    console.log("Date: ", this.registerUser.creationdate);
+    console.log("Discount: ", this.registerUser.discount);
 
-    // Préparer les données de l'utilisateur avec les champs supplémentaires
-    const userToRegister: UserDTO = {
-      ...this.registerUser,
-      id: -1, // ID par défaut
-      solde: 0, // Solde initial
-      creationdate: new Date(), 
-      discount: 0 
-    };
-
-    this.userService.addUser(userToRegister).subscribe({
+    this.userService.addUser(this.registerUser).subscribe({
       next: () => {
         console.log("User registered successfully.");
         this.successMessage = "Registration successful! You can now log in.";
-        this.errorMessage = null; 
+        this.errorMessage = null; // Réinitialisation du message d'erreur
         setTimeout(() => {
-          this.router.navigate(['/login-page']); 
-        }, 2000); 
+          this.router.navigate(['/login-page']); // Redirige vers la page de login après succès
+        }, 2000); // Redirection après 2 secondes
       },
       error: err => {
         console.error("Failed to register user:", err);
-        this.successMessage = null; 
+        this.successMessage = null; // Réinitialisation du message de succès
         this.errorMessage = "Failed to register user. Please try again later.";
       }
     });
