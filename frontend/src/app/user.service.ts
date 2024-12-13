@@ -40,9 +40,5 @@ export class userService {
   }
 
   constructor() { }
-  registerUser(user: { name: string; email: string; password: string }): Observable<any> 
-  {
-    console.log("Sending registration data to server:", user);
-    return this.httpClient.post<any>(`${this.apiUrl}/register`, user);
-  }
+  
 }

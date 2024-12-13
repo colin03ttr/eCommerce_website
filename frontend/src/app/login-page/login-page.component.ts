@@ -19,7 +19,7 @@ export class LoginPageComponent {
   loginUser: { username: string; email: string; password: string } = { username: '', email: '', password: '' };
   showForm: boolean = false;
   errorMessage: string | null = null;
-  sessionStatus: string | null = null; // Pour afficher l'état de la session
+  sessionStatus: string | null = null; 
 
   onClickDeployForm() {
     this.showForm = !this.showForm;
@@ -44,10 +44,12 @@ export class LoginPageComponent {
         if (this.validUserDTO.password === this.loginUser.password) {
           console.log("User logged in successfully. Starting session.");
           this.errorMessage = null;
-          this.startUserSession(this.validUserDTO); // Démarrer la session
-          this.sessionStatus = `Session started for user: ${this.validUserDTO.name}`; // Indication visuelle
+          this.startUserSession(this.validUserDTO); 
+          this.sessionStatus = `Session started for user: ${this.validUserDTO.name}`; 
           console.log(this.sessionStatus);
-          this.router.navigate(['/']); // Redirige vers la page d'accueil
+          window.location.reload();
+          
+          
         } else {
           console.log("Failed to login user. Invalid password.");
           this.errorMessage = "Invalid credentials. Please try again.";
@@ -58,12 +60,16 @@ export class LoginPageComponent {
         this.errorMessage = "An error occurred. Please try again later.";
       }
     });
+    
+          this.router.navigate(['/']); 
+          console.log("wow, c'est bon on a bougé");
+          
   }
 
   startUserSession(user: UserDTO) {
     const sessionData = {
       user,
-      expiry: new Date().getTime() + 60 * 60 * 1000 // Durée de session : 1 heure
+      expiry: new Date().getTime() + 60 * 60 * 1000 
     };
     localStorage.setItem('userSession', JSON.stringify(sessionData));
     console.log("Session data saved to localStorage:", sessionData);
@@ -101,7 +107,7 @@ export class LoginPageComponent {
   logout() {
     console.log("Logging out user.");
     localStorage.removeItem('userSession');
-    this.sessionStatus = "No active session"; // Réinitialisation de l'état de la session
-    this.router.navigate(['/login']); // Redirige vers la page de login
+    this.sessionStatus = "No active session";
+    this.router.navigate(['/']); 
   }
 }

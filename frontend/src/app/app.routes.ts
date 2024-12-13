@@ -9,6 +9,7 @@ import { UsersListPageComponent } from './users-list-page/users-list-page.compon
 import {LoginPageComponent } from './login-page/login-page.component';
 import {RegisterPageComponent } from './register-page/register-page.component';
 import { LoginOrRegisterComponent } from './login-or-register/login-or-register.component';
+import { ProductPageComponent } from './products/products.component';
 
 export const routes: Routes = [
     {path: 'lesson-edit-form', component: LessonEditFormComponent},
@@ -21,4 +22,5 @@ export const routes: Routes = [
     {path: 'login-page', component: LoginPageComponent},
     {path: 'register-page', component: RegisterPageComponent},
     { path: 'login-or-register', component: LoginOrRegisterComponent },
+    { path: 'products', component: ProductPageComponent },
 ];
