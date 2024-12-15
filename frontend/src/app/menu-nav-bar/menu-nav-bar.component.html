@@ -25,9 +25,10 @@
     <ul class="navbar-nav position-absolute" style="right: 0; margin-right: 20px;">
         <li class="nav-item" *ngIf="isLoggedIn()" ngbDropdown>
             <a ngbDropdownToggle class="nav-link dropdown-toggle" role="button">
-                {{ userName }}
+                {{ this.user?.name }}
             </a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item" (click)="goToProfile()">Profile</button>
                 <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
         </li>

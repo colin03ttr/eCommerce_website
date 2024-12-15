@@ -29,5 +29,5 @@ export const routes: Routes = [
     {path: 'products', component: ProductPageComponent },
     {path: 'detailed-product/:id', component: ProductDetailsComponent },
     {path: '', component: HomepageComponent},
-    {path: 'profile', component: ProfilePageComponent },
+    {path: 'profile/:id', component: ProfilePageComponent },
 ];

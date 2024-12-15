@@ -1,4 +1,5 @@
 import { Component, importProvidersFrom, OnInit } from '@angular/core';
+import { UserSettingsService } from '../user-settings.service';
 import { userService } from '../user.service';
 import { CommonModule } from '@angular/common';
 import { UserDTO } from '../DTOs/userDTO';
@@ -15,29 +16,15 @@ export class ProfilePageComponent implements OnInit {
   soldeVisible: boolean = false; // Contrôle la visibilité du solde
   discountVisible: boolean = false; // Contrôle la visibilité de la réduction
 
-  constructor(private userService: userService) {}
+  constructor(private userService: userService, private userSettingsService: UserSettingsService) {}
 
   ngOnInit(): void {
-    const sessionData = localStorage.getItem('userSession'); // Charge les données de la session
-    if (sessionData) {
-      const userEmail = JSON.parse(sessionData).email; // Récupère l'email depuis la session
-      this.loadUserData(userEmail); // Charge les données utilisateur depuis le backend
-    } else {
-      console.warn('Aucune session active trouvée.');
+    this.user = this.userSettingsService.getLoggedUser(); // Récupère les données utilisateur stockées
+    if(this.user){
+      console.log('Données utilisateur récupérées :', this.user);
+    }else{
+      console.error('Aucune donnée utilisateur récupérée.');
     }
-  }
-
-  // Charge les données utilisateur depuis la base de données avec l'email
-  loadUserData(email: string): void {
-    this.userService.GetUserByEmail(email).subscribe({
-      next: (data: UserDTO) => {
-        this.user = data; // Affecte les données utilisateur récupérées
-        console.log('Données utilisateur chargées :', data);
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement des données utilisateur :', err);
-      }
-    });
   }
 
   showSolde(): void {

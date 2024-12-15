@@ -3,6 +3,8 @@
     <div class="card mx-auto mt-4 p-4 shadow" style="max-width: 400px;">
       <h2 class="mb-4 text-center">Welcome, {{ user?.name }}</h2>
       <div class="d-grid gap-3">
+        <a>Name : {{ user?.name }}</a>
+        <a>Email : {{user?.email}} </a>
         <button class="btn btn-primary" (click)="showSolde()">Show Solde</button>
         <button class="btn btn-secondary" (click)="showDiscount()">Show Discount</button>
       </div>
