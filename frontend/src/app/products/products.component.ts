@@ -20,6 +20,7 @@ export class ProductPageComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    
     this.watchservice.getWatchesDTO().subscribe({
       next: data => {
         console.log('Finished loading watches, saving to component field');

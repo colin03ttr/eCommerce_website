@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <h1 class="text-center">Profile</h1>
+    <div class="card mx-auto mt-4 p-4 shadow" style="max-width: 400px;">
+      <h2 class="mb-4 text-center">Welcome, {{ user?.name }}</h2>
+      <div class="d-grid gap-3">
+        <button class="btn btn-primary" (click)="showSolde()">Show Solde</button>
+        <button class="btn btn-secondary" (click)="showDiscount()">Show Discount</button>
+      </div>
+      <div class="mt-4">
+        <p *ngIf="soldeVisible" class="alert alert-info">Your solde: {{ user?.solde }} €</p>
+        <p *ngIf="discountVisible" class="alert alert-success">Your discount: {{ user?.discount }}%</p>
+      </div>
+    </div>
+  </div>

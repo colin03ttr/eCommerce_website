@@ -12,6 +12,8 @@ import { LoginOrRegisterComponent } from './login-or-register/login-or-register.
 import { ProductPageComponent } from './products/products.component';
 import { ProductDetailsComponent } from './detailed-product/detailed-product.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { ProfilePageComponent } from './profile/profile.component';
+import { prefix } from '@fortawesome/free-solid-svg-icons';
 
 export const routes: Routes = [
     {path: 'lesson-edit-form', component: LessonEditFormComponent},
@@ -26,5 +28,6 @@ export const routes: Routes = [
     {path: 'login-or-register', component: LoginOrRegisterComponent },
     {path: 'products', component: ProductPageComponent },
     {path: 'detailed-product/:id', component: ProductDetailsComponent },
-    {path: '', component: HomepageComponent}
+    {path: '', component: HomepageComponent},
+    {path: 'profile', component: ProfilePageComponent },
 ];

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import User from "../models/user";
+import { Request, Response } from 'express';
 
 const router = Router();
 
@@ -159,6 +160,25 @@ router.put('/api/users/:id', async (req, res) => {
         res.status(500).json({ message: 'Failed to update user.\n', error: err });
     }
 });
+
+router.get('/api/users/:email', async (req: Request, res: Response): Promise<void> => {
+    const { email } = req.params;
+    if (!email) {
+      res.status(400).json({ error: 'Email is required.' });
+      return;
+    }
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        res.status(404).json({ error: 'User not found.' });
+      } else {
+        res.json(user);
+      }
+    } catch (err) {
+      console.error('Error fetching user:', err);
+      res.status(500).json({ message: 'Failed to fetch user.' });
+    }
+  });
 
 
 
