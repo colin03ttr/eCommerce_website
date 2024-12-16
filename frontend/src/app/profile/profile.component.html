@@ -1,16 +1,45 @@
-<div class="container mt-5">
+<div class="background">
     <h1 class="text-center">Profile</h1>
-    <div class="card mx-auto mt-4 p-4 shadow" style="max-width: 400px;">
-      <h2 class="mb-4 text-center">Welcome, {{ user?.name }}</h2>
+    <div class="form-container card mx-auto p-4 shadow" style="height: fit-content; width: fit-content">
+      <h2 class="mb-4 text-center">Welcome {{ this.user?.name }}</h2>
       <div class="d-grid gap-3">
-        <a>Name : {{ user?.name }}</a>
+        <a>Name : {{user?.name}}</a>
         <a>Email : {{user?.email}} </a>
         <button class="btn btn-primary" (click)="showSolde()">Show Solde</button>
         <button class="btn btn-secondary" (click)="showDiscount()">Show Discount</button>
       </div>
-      <div class="mt-4">
+      <div>
         <p *ngIf="soldeVisible" class="alert alert-info">Your solde: {{ user?.solde }} €</p>
         <p *ngIf="discountVisible" class="alert alert-success">Your discount: {{ user?.discount }}%</p>
       </div>
     </div>
   </div>
+
+<style>
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover; 
+    background-position: center; 
+  }
+  .background {
+    background-image: url('https://img.freepik.com/photos-gratuite/gros-plan-montre_53876-32028.jpg?t=st=1734353268~exp=1734356868~hmac=66d7897ff1890ed2a962f95df75805fc8e3a74b0649783960ff480a899d7269a&w=1800');
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+  }
+  .background::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-color: rgba(255, 255, 255, 0.3); /* Adjust the alpha value for transparency */
+      z-index: 1; /* Ensure the overlay is behind the content */
+  }
+  .background > * {
+      position: relative;
+      z-index: 2; /* Ensure the content is above the overlay */
+  }
+</style>
