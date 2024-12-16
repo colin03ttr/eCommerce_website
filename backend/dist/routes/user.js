@@ -64,7 +64,7 @@ router.get('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, functio
 router.get('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.params;
     try {
-        const user = yield user_1.default.findByPk(email);
+        const user = yield user_1.default.findOne({ where: { email } });
         if (user) {
             res.json(user);
         }

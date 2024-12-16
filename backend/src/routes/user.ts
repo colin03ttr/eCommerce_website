@@ -54,7 +54,7 @@ router.get('/api/users', async (req, res) => {
 router.get('/api/users/:email', async (req, res) => {
     const { email } = req.params;
     try {
-        const user = await User.findByPk(email);
+        const user = await User.findOne({ where: { email } });
         if (user) {
             res.json(user);
         } else {
