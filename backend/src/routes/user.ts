@@ -179,7 +179,7 @@ router.get('/api/users/:email', async (req: Request, res: Response): Promise<voi
       res.status(500).json({ message: 'Failed to fetch user.' });
     }
   });
-
+  
 
 
 export default router;

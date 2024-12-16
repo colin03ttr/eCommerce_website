@@ -27,6 +27,7 @@ User.init({
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
+        
         primaryKey: true,
     },
     password: {

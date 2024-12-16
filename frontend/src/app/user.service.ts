@@ -35,9 +35,9 @@ export class userService {
 
 
   //put method to update a user
-  updateUser(user: UserDTO): Observable<UserDTO> {
-    return this.httpClient.put<UserDTO>('/api/users', user);
-  }
+  updateUserByEmail(email: string, updatedData: Partial<UserDTO>): Observable<UserDTO> {
+    return this.httpClient.put<UserDTO>(`${this.apiUrl}/${encodeURIComponent(email)}`, updatedData);
+}
 
   constructor() { }
   

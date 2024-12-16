@@ -60,6 +60,7 @@ app.get('/api/liveness', (req, res) => {
     res.status(200).send('Server is operational!');
 });
 
+
 // Start server
 sequelize.sync()
     .then(() => {
