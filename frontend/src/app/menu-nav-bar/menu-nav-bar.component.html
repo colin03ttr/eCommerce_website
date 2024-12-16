@@ -1,33 +1,19 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #d2b485;">
     <a class="navbar-brand" routerLink="/"><fa-icon [icon]="faHome"></fa-icon> Home</a>
     <ul class="navbar-nav mr-auto">
-        <li ngbDropdown class="nav-item">
-            <a ngbDropdownToggle id="navbarMenu2" class="nav-link dropdown-toggle" role="button">Lessons</a>
-            <div ngbDropdownMenu aria-labelledby="navbarMenu2" class="dropdown-menu">
-                <a class="dropdown-item" routerLink="/lesson-edit-form">Lesson Edit Form...</a>
-                <a class="dropdown-item" routerLink="/lesson-search-page">Lesson Search Page...</a>
-                <a class="dropdown-item" routerLink="/lesson-list">Lesson List...</a>
-            </div>
-        </li>
-        <li ngbDropdown class="nav-item">
-            <a ngbDropdownToggle id="navbarTestPages" class="nav-link dropdown-toggle" role="button">Test Pages</a>
-            <div ngbDropdownMenu aria-labelledby="navbarTestPages" class="dropdown-menu">
-                <a class="dropdown-item" routerLink="/test-page1">Test Page 1</a>
-            </div>
-        </li>
+        
+        
         <li class="nav-item">
             <a class="nav-link" routerLink="/products">Products</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/users">Users</a>
-        </li>
+        
     </ul>
     <ul class="navbar-nav position-absolute" style="right: 0; margin-right: 20px;">
         <li class="nav-item" *ngIf="isLoggedIn()" ngbDropdown>
             <a ngbDropdownToggle class="nav-link dropdown-toggle" role="button" placement = 'top-end'>
                 {{ this.user?.name }}
             </a>
-            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+            <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" style="right: 0; left: auto;">
                 <button class="dropdown-item" (click)="goToProfile()">Profile</button>
                 <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
