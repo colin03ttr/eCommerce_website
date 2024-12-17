@@ -4,6 +4,7 @@ import { userService } from '../user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserDTO } from '../DTOs/userDTO';
+import e from 'express';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,6 +19,7 @@ export class ProfilePageComponent implements OnInit {
   soldeVisible: boolean = false; // Contrôle la visibilité du solde
   discountVisible: boolean = false; // Contrôle la visibilité de la réduction
   formChanged: boolean = false;
+  showMoneyInput: boolean = false;
   
   constructor(private userService: userService, protected userSettingsService: UserSettingsService) {  }
 
@@ -61,6 +63,20 @@ export class ProfilePageComponent implements OnInit {
 
   onChange(): void {
     this.formChanged = true;
+  }
+  addMoney(money: number): void {
+    if(this.user){
+      if(money<0){
+        console.log("Positive values only : if you don't want to lose your money");
+        window.alert("Positive values only : if you don't want to lose your money");
+        ("Positive values only : if you don't want to lose your money")
+        return;
+      }else if(money!=0){
+        const newSolde = this.user.solde+money;
+        this.user.solde = newSolde;
+        this.editProfile();
+      }
+    }
   }
 }
 
