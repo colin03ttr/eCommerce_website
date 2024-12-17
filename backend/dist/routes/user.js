@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_1 = __importDefault(require("../models/user"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const router = (0, express_1.Router)();
 // Get all users
 /**
@@ -81,7 +82,8 @@ router.get('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, 
  * @swagger
  * /api/users:
  *   post:
- *     summary: Register a new user.
+ *     summary: Register a new user
+ *     description: Creates a new user account with a hashed password.
  *     tags:
  *       - Users
  *     requestBody:
@@ -93,28 +95,60 @@ router.get('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, 
  *             properties:
  *               name:
  *                 type: string
+ *                 example: John Doe
  *               email:
  *                 type: string
+ *                 example: john@example.com
  *               password:
  *                 type: string
- *               packages:
- *                 type: array
- *                 items:
- *                   type: string
+ *                 example: password123
  *     responses:
  *       201:
  *         description: User created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User registered successfully.
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       example: John Doe
+ *                     email:
+ *                       type: string
+ *                       example: john@example.com
+ *       400:
+ *         description: Missing required fields.
  *       500:
  *         description: Server error.
  */
 router.post('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, password, packages } = req.body;
+    const { name, email, password } = req.body;
     try {
-        const newUser = yield user_1.default.create({ name, email, password, packages });
-        res.status(201).json(newUser);
+        // Vérification des champs requis
+        if (!name || !email || !password) {
+            res.status(400).json({ error: 'Name, email, and password are required.' });
+            return; // Arrête la fonction après l'envoi de la réponse
+        }
+        // Hachage du mot de passe
+        const saltRounds = 10;
+        const hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
+        // Création de l'utilisateur avec le mot de passe haché
+        const newUser = yield user_1.default.create({ name, email, password: hashedPassword });
+        // Réponse de succès
+        res.status(201).json({
+            message: 'User registered successfully.',
+            user: { name: newUser.name, email: newUser.email },
+        });
     }
     catch (err) {
-        res.status(500).json({ message: 'Failed to create user.\n', error: err });
+        console.error('Error during registration:', err);
+        res.status(500).json({ error: 'Failed to register user.' });
     }
 }));
 // Update a user by ID
