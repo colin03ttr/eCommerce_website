@@ -40,5 +40,20 @@ export class userService {
 }
 
   constructor() { }
+  getUserProfile(): Observable<UserDTO> {
+    const token = localStorage.getItem('jwtToken'); // Récupération du token
+  
+    if (!token) {
+      console.error("No token found. User is not authenticated.");
+      throw new Error("No token available.");
+    }
+  
+    return this.httpClient.get<UserDTO>('/api/profile', {
+      headers: {
+        Authorization: `Bearer ${token}` // Ajout du token dans l'en-tête
+      }
+    });
+  }
   
 }
+
