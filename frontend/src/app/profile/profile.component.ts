@@ -4,6 +4,7 @@ import { userService } from '../user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserDTO } from '../DTOs/userDTO';
+import e from 'express';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,9 +19,9 @@ export class ProfilePageComponent implements OnInit {
   soldeVisible: boolean = false; // Contrôle la visibilité du solde
   discountVisible: boolean = false; // Contrôle la visibilité de la réduction
   formChanged: boolean = false;
-  constructor(private userService: userService, protected userSettingsService: UserSettingsService) {  }
-
+  showMoneyInput: boolean = false;
   
+  constructor(private userService: userService, protected userSettingsService: UserSettingsService) {  }
 
   ngOnInit(): void {
     this.user = this.userSettingsService.getLoggedUser(); // Récupère les données utilisateur stockées
@@ -42,12 +43,6 @@ export class ProfilePageComponent implements OnInit {
   }
   editProfile(): void {
     if (!this.user) return;
-    /* const updatedData: UserDTO = {
-        name: this.updatedUser.name || this.user.name,
-        password: this.updatedUser.password || this.user.password,
-        solde: this.addedSolde > 0 ? (this.user.solde || 0) + this.addedSolde : this.user.solde,
-    }; */
-
     // update user in database
     this.userService.updateUserByEmail(this.user.email, this.user).subscribe({
         next: (updatedUser) => {
@@ -63,10 +58,25 @@ export class ProfilePageComponent implements OnInit {
 
     //update user session
     this.userSettingsService.updateSession(this.user)
+    window.location.reload();
 }
 
   onChange(): void {
     this.formChanged = true;
+  }
+  addMoney(money: number): void {
+    if(this.user){
+      if(money<0){
+        console.log("Positive values only : if you don't want to lose your money");
+        window.alert("Positive values only : if you don't want to lose your money");
+        ("Positive values only : if you don't want to lose your money")
+        return;
+      }else if(money!=0){
+        const newSolde = this.user.solde+money;
+        this.user.solde = newSolde;
+        this.editProfile();
+      }
+    }
   }
 }
 
