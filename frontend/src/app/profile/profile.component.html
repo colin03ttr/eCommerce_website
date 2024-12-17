@@ -1,32 +1,32 @@
 <div class="background">
-  <h1 class="text-center">Profile</h1>
-  <div class="form-container">
+  <div class="form-container background">
     <ng-form #profileForm>
-      <div>
+      <div class="form-container">
         <form (ngSubmit)="editProfile()" #profileForm="ngForm" class="bg-white p-4 rounded shadow-sm" style="width: fit-content; max-width: 400px;">
           <h2 class="text-center mb-4">Edit Profile</h2>
           <div class="form-group mb-3" *ngIf="this.user">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" id="username" class="form-control" name="name" [(ngModel)]="user.name" (ngModelChange)="onChange()">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" class="form-control" name="name" [(ngModel)]="user.name" (ngModelChange)="onChange()">
           </div>
           <div class="form-group mb-3" *ngIf="this.user">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" id="email" class="form-control" name="email" [(ngModel)]="user.email" (ngModelChange)="onChange()">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" name="email" [(ngModel)]="user.email" (ngModelChange)="onChange()">
           </div>
           <div class="form-group mb-3" *ngIf="this.user">
-              <label for="discount" class="form-label">Discount</label>
-              <input type="number" id="discount" class="form-control" name="discount" [(ngModel)]="user.discount" disabled>
+            <label for="discount" class="form-label">Discount</label>
+            <input type="number" id="discount" class="form-control" name="discount" [(ngModel)]="user.discount" disabled>
           </div>
           <div class="form-group mb-3" *ngIf="this.user">
             <label for="solde" class="form-label">Solde</label>
             <div class="input-group">
               <input type="number" id="solde" class="form-control" name="solde" placeholder="{{this.user.solde}} €" disabled>
-              <input type="number" class="form-control" value="0" name="money" #moneyInput min="0"> <button class="btn btn-outline-secondary" (click)="addMoney(+moneyInput.value)">Add Money</button>
+              <input type="number" class="form-control" value="0" name="money" #moneyInput min="0"> 
+              <button class="btn btn-dark" style="font-size: 16px; padding: 10px 20px; border-radius: 5px;" (click)="addMoney(+moneyInput.value)">Add Money</button>
             </div>
           </div>
-          <button class="btn btn-primary" id="submit-btn" type="submit" [hidden]="!formChanged">Submit</button>
-          <button class="btn btn-primary" (click)="showSolde()">Show Solde</button>
-          <button class="btn btn-secondary" (click)="showDiscount()">Show Discount</button>
+          <div class="text-center">
+            <button class="btn btn-dark" style="font-size: 16px; padding: 10px 20px; border-radius: 12px;" id="submit-btn" type="submit" [hidden]="!formChanged">Submit</button>
+          </div>
           <div>
             <p *ngIf="soldeVisible" class="alert alert-info">Your solde: {{ user?.solde }} €</p>
             <p *ngIf="discountVisible" class="alert alert-success">Your discount: {{ user?.discount }}%</p>
@@ -51,7 +51,7 @@
   background-attachment: fixed; /* Keeps the background fixed when scrolling */
   background-position: center;
   background-repeat: no-repeat;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 60px);
   position: relative;
 }
 
@@ -61,7 +61,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 60px);
   background-color: rgba(255, 255, 255, 0.3); /* Optional overlay */
   z-index: 1;
   pointer-events: none;
@@ -71,4 +71,16 @@
   position: relative;
   z-index: 2;
 }
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    height: calc(100vh - 60px); /* Hauteur de l'écran */
+  }
+
+  form {
+    width: 100%; /* Prend toute la largeur disponible */
+    max-width: 400px; /* Limite la largeur du formulaire */
+    margin: 0 auto; /* Centrage horizontal */
+  }
 </style>

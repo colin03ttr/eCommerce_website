@@ -9,7 +9,7 @@
     </ul>
     <ul class="navbar-nav position-absolute" style="right: 0; margin-right: 20px;">
         <li class="nav-item" *ngIf="isLoggedIn()" ngbDropdown>
-            <a ngbDropdownToggle class="nav-link dropdown-toggle" role="button" placement="top-end" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">
+            <a ngbDropdownToggle class="nav-link dropdown-toggle" role="button" placement="top-end" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600; padding: 10px 15px; transition: color 0.3s ease, transform 0.3s ease;">
                 {{ this.user?.name }}
             </a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" style="right: 0; left: auto;">
@@ -18,8 +18,74 @@
             </div>
         </li>
         <li class="nav-item" *ngIf="!isLoggedIn()">
-            <a class="nav-link" routerLink="/login-or-register" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">Login/Register</a>
+            <a class="nav-link" routerLink="/login-or-register" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600; padding: 10px 15px; transition: color 0.3s ease, transform 0.3s ease;">
+                Login/Register
+            </a>
         </li>
     </ul>
 </nav>
 <router-outlet></router-outlet>
+
+<style>
+    /* Style pour les éléments de la navbar */
+    .navbar-nav .nav-link {
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        padding: 10px 15px;
+        transition: color 0.3s ease, transform 0.3s ease, padding 0.3s ease;
+    }
+
+    /* Animation de survol pour la navbar */
+    .navbar-nav .nav-link:hover {
+        color: #d2b485; /* Légère couleur dorée pour l'effet de survol */
+        transform: scale(1.1); /* Agrandissement du texte pour un effet plus dynamique */
+        padding-left: 20px; /* Ajoute un petit décalage pour l'effet de focus */
+    }
+
+    /* Animation plus fluide pour le dropdown */
+    .dropdown-menu {
+        opacity: 0;
+        pointer-events: none; /* Désactive les interactions avant l'apparition */
+        transform: translateY(-10px); /* Menu en position légèrement décalée au départ */
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .dropdown-menu.show {
+        opacity: 1;
+        pointer-events: auto; /* Active les interactions une fois le menu visible */
+        transform: translateY(0); /* Menu glisse vers sa position finale */
+    }
+
+    /* Lien du menu déroulant - animation */
+    .dropdown-menu .dropdown-item {
+        color: #0a0a3a;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
+        background-color: #c5c5c5cd; /* Fond doré au survol */
+        color: white; /* Texte en blanc sur fond doré */
+    }
+
+    /* Animation de survol sur le menu */
+    .nav-item:hover .nav-link {
+        color: #e8e8e8; /* Changement de couleur pour l'effet de survol */
+        text-decoration: underline; /* Sous-lignage pour plus de visibilité */
+    }
+
+    /* Animation fluide sur le dropdown pour l'apparition */
+    .navbar-nav .nav-item {
+        position: relative;
+    }
+
+    .navbar-nav .nav-item.ngbDropdown:hover .dropdown-menu {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+</style>
