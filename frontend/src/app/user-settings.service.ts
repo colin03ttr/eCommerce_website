@@ -76,4 +76,16 @@ export class UserSettingsService{
       this.router.navigate(['/']); 
     }
   } 
+
+  updateSession(newUser: UserDTO) {
+    const sessionData = localStorage.getItem('userSession');
+    if (sessionData) {
+      const parsedData = JSON.parse(sessionData);
+      parsedData.user = newUser;
+      localStorage.setItem('userSession', JSON.stringify(parsedData));
+      console.log("Session data updated with new user info:", parsedData);
+    } else {
+      console.log("No session data found to update.");
+    }
+  }
 }
