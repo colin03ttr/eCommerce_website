@@ -97,10 +97,6 @@ router.get('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, 
  *                 type: string
  *               password:
  *                 type: string
- *               packages:
- *                 type: array
- *                 items:
- *                   type: string
  *     responses:
  *       201:
  *         description: User created successfully.
@@ -117,21 +113,21 @@ router.post('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(500).json({ message: 'Failed to create user.\n', error: err });
     }
 }));
-// Update a user by ID
+// Update a user by email
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users/{email}:
  *   put:
- *     summary: Update a user by ID.
+ *     summary: Update a user by email.
  *     tags:
  *       - Users
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: email
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID.
+ *         description: User email.
  *     requestBody:
  *       required: true
  *       content:
@@ -145,10 +141,12 @@ router.post('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, functi
  *                 type: string
  *               password:
  *                 type: string
- *               packages:
- *                 type: array
- *                 items:
- *                   type: string
+ *               solde:
+ *                 type: number
+ *               creationDate:
+ *                 type: DateTime
+ *               discount:
+ *                 type: number
  *     responses:
  *       200:
  *         description: User updated successfully.
@@ -157,11 +155,11 @@ router.post('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, functi
  *       500:
  *         description: Server error.
  */
-router.put('/api/users/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const { name, email, password, packages } = req.body;
+router.put('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.params;
+    const { id, name, bodyemail, password, solde, creationDate, discount } = req.body;
     try {
-        const updated = yield user_1.default.update({ name, email, password, packages }, { where: { id } });
+        const updated = yield user_1.default.update({ id, name, bodyemail, password, solde, creationDate, discount }, { where: { email } });
         if (updated[0] > 0) {
             res.json({ message: 'User updated successfully.' });
         }

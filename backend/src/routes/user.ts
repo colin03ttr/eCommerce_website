@@ -86,10 +86,6 @@ router.get('/api/users/:email', async (req, res) => {
  *                 type: string
  *               password:
  *                 type: string
- *               packages:
- *                 type: array
- *                 items:
- *                   type: string
  *     responses:
  *       201:
  *         description: User created successfully.
@@ -106,21 +102,21 @@ router.post('/api/users', async (req, res) => {
     }
 });
 
-// Update a user by ID
+// Update a user by email
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users/{email}:
  *   put:
- *     summary: Update a user by ID.
+ *     summary: Update a user by email.
  *     tags:
  *       - Users
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: email
  *         required: true
  *         schema:
  *           type: string
- *         description: User ID.
+ *         description: User email.
  *     requestBody:
  *       required: true
  *       content:
@@ -134,10 +130,12 @@ router.post('/api/users', async (req, res) => {
  *                 type: string
  *               password:
  *                 type: string
- *               packages:
- *                 type: array
- *                 items:
- *                   type: string
+ *               solde:
+ *                 type: number
+ *               creationDate:
+ *                 type: DateTime
+ *               discount:
+ *                 type: number
  *     responses:
  *       200:
  *         description: User updated successfully.
@@ -146,11 +144,14 @@ router.post('/api/users', async (req, res) => {
  *       500:
  *         description: Server error.
  */
-router.put('/api/users/:id', async (req, res) => {
-    const { id } = req.params;
-    const { name, email, password, packages } = req.body;
+router.put('/api/users/:email', async (req, res) => {
+    const { email } = req.params;
+    const { id, name, email: newEmail, password, solde, creationDate, discount } = req.body;
     try {
-        const updated = await User.update({ name, email, password, packages }, { where: { id } });
+        const updated = await User.update(
+            { id, name, email: newEmail, password, solde, creationDate, discount },
+            { where: { email } }
+        );
         if (updated[0] > 0) {
             res.json({ message: 'User updated successfully.' });
         } else {
