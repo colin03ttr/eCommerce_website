@@ -3,23 +3,30 @@
     <h1 style="text-align: center; top: 40%; font-size: 700%; font-family: Garamond, serif; font-weight: 700;">WatchShop Website</h1>
 </div>
 <style>
-    .background {
-        /* background-image: url('https://media.gqmagazine.fr/photos/63b6bbac1a91db3e57c3f89d/16:9/w_2560%2Cc_limit/Montage_Montres_Doree2.jpg'); */
-        background-image: url('https://img.freepik.com/photos-gratuite/gros-plan-montre_53876-32028.jpg?t=st=1734353268~exp=1734356868~hmac=66d7897ff1890ed2a962f95df75805fc8e3a74b0649783960ff480a899d7269a&w=1800');
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-    }
-    .background::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.3); /* Adjust the alpha value for transparency */
-        z-index: 1; /* Ensure the overlay is behind the content */
-    }
-    .background > * {
-        position: relative;
-        z-index: 2; /* Ensure the content is above the overlay */
-    }
+.background {
+  background: url('https://st.depositphotos.com/1888461/3115/i/450/depositphotos_31152539-stock-illustration-abstract-background-grey-grunge-paper.jpg') no-repeat center center;
+  background-size: cover; /* Ensures the image is fully visible without zooming */
+  background-attachment: fixed; /* Keeps the background fixed when scrolling */
+  background-position: center;
+  background-repeat: no-repeat;
+  height: calc(100vh - 56px);
+  position: relative;
+}
+
+.background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 56px);
+  background-color: rgba(255, 255, 255, 0.3); /* Optional overlay */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.background > * {
+  position: relative;
+  z-index: 2;
+}
 </style>

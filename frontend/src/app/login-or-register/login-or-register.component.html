@@ -1,11 +1,11 @@
 
-<div class="d-flex flex-column align-items-center justify-content-center vh-100 bg-light background">
+<div class="d-flex flex-column align-items-center justify-content-center bg-light background">
   <div class="card-container p-4 shadow rounded">
     <h1 class="mb-4 text-center">Welcome!</h1>
     <p class="mb-4 text-center">Please log in or register to continue.</p>
     <div class="d-flex gap-3 justify-content-center">
-      <button class="btn btn-primary btn-lg" (click)="goToLogin()">Login</button>
-      <button class="btn btn-secondary btn-lg" (click)="goToRegister()">Register</button>
+      <button class="btn btn-dark" style="font-size: 16px; padding: 10px 20px; border-radius: 30px;" (click)="goToLogin()">Login</button>
+      <button class="btn btn-dark" style="font-size: 16px; padding: 10px 20px; border-radius: 30px;" (click)="goToRegister()">Register</button>
     </div>
   </div>
 </div>
@@ -20,21 +20,30 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
 }
 
-  .background {
-    background-image: url('https://img.freepik.com/photos-gratuite/gros-plan-montre_53876-32028.jpg?t=st=1734353268~exp=1734356868~hmac=66d7897ff1890ed2a962f95df75805fc8e3a74b0649783960ff480a899d7269a&w=1800');
-    background-position: center;
-    height: calc(100vh - 56px);
-  }
-  .background::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: calc(100vh - 56px);
-      background-color: rgba(255, 255, 255, 0.3); /* Adjust the alpha value for transparency */
-      z-index: 1; /* Ensure the overlay is behind the content */
-  }
-  .background > * {
-      position: relative;
-      z-index: 2; /* Ensure the content is above the overlay */
-  }
+.background {
+  background: url('https://st.depositphotos.com/1888461/3115/i/450/depositphotos_31152539-stock-illustration-abstract-background-grey-grunge-paper.jpg') no-repeat center center;
+  background-size: cover; /* Ensures the image is fully visible without zooming */
+  background-attachment: fixed; /* Keeps the background fixed when scrolling */
+  background-position: center;
+  background-repeat: no-repeat;
+  height: calc(100vh - 56px);
+  position: relative;
+}
+
+.background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 56px);
+  background-color: rgba(255, 255, 255, 0.3); /* Optional overlay */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.background > * {
+  position: relative;
+  z-index: 2;
+}
 </style>
