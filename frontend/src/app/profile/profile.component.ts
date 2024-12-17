@@ -4,6 +4,7 @@ import { userService } from '../user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserDTO } from '../DTOs/userDTO';
+import e from 'express';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,15 +14,14 @@ import { UserDTO } from '../DTOs/userDTO';
   styleUrls: ['./profile.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-  updatedUser: Partial<UserDTO> = {}; // Pour les données mises à jour
-addedSolde: number = 0; // Pour ajouter au solde
+  addedSolde: number = 0; // Pour ajouter au solde
   user: UserDTO | null = null; // Stocke les données utilisateur
   soldeVisible: boolean = false; // Contrôle la visibilité du solde
   discountVisible: boolean = false; // Contrôle la visibilité de la réduction
   formChanged: boolean = false;
-  constructor(private userService: userService, private userSettingsService: UserSettingsService) {  }
-
+  showMoneyInput: boolean = false;
   
+  constructor(private userService: userService, protected userSettingsService: UserSettingsService) {  }
 
   ngOnInit(): void {
     this.user = this.userSettingsService.getLoggedUser(); // Récupère les données utilisateur stockées
@@ -43,28 +43,40 @@ addedSolde: number = 0; // Pour ajouter au solde
   }
   editProfile(): void {
     if (!this.user) return;
-
-    const updatedData: Partial<UserDTO> = {
-        name: this.updatedUser.name || this.user.name,
-        password: this.updatedUser.password || this.user.password,
-        solde: this.addedSolde > 0 ? (this.user.solde || 0) + this.addedSolde : this.user.solde,
-    };
-
-    this.userService.updateUserByEmail(this.user.email, updatedData).subscribe({
+    // update user in database
+    this.userService.updateUserByEmail(this.user.email, this.user).subscribe({
         next: (updatedUser) => {
             console.log('Profil mis à jour avec succès :', updatedUser);
             this.user = updatedUser; // Met à jour localement
-            this.updatedUser = {}; // Réinitialise les champs de mise à jour
+            // this.updatedUser = {}; // Réinitialise les champs de mise à jour
             this.addedSolde = 0; // Réinitialise le montant ajouté
         },
         error: (err) => {
             console.error('Erreur lors de la mise à jour du profil :', err);
         },
     });
+
+    //update user session
+    this.userSettingsService.updateSession(this.user)
+    window.location.reload();
 }
 
   onChange(): void {
     this.formChanged = true;
+  }
+  addMoney(money: number): void {
+    if(this.user){
+      if(money<0){
+        console.log("Positive values only : if you don't want to lose your money");
+        window.alert("Positive values only : if you don't want to lose your money");
+        ("Positive values only : if you don't want to lose your money")
+        return;
+      }else if(money!=0){
+        const newSolde = this.user.solde+money;
+        this.user.solde = newSolde;
+        this.editProfile();
+      }
+    }
   }
 }
 
