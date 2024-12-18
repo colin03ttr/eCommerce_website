@@ -11,8 +11,7 @@
     "resolveJsonModule": true
   },
   "include": [
-    "src//*.ts"
-, "src/models/LearningPackage.ts", "src/models/learningFact.ts", "src/models/watch.ts", "src/models/user.ts"  ],
+    "src/models/*.ts" ],
   "exclude": [
     "node_modules"
   ]
