@@ -55,8 +55,6 @@ app.get('/swagger.json', (req, res) => {
     res.send(specs);
   });
 // Use the routes
-app.use(learningPackagesRoutes);
-app.use(learningFactsRoutes);
 app.use(userRoutes);
 app.use(watchRoutes);
 

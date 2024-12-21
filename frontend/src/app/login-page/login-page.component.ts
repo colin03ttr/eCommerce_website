@@ -29,7 +29,7 @@ export class LoginPageComponent {
     console.log("Email: ", this.loginUser.email);
     console.log("Password: ", this.loginUser.password);
 
-    // Récupération des informations utilisateur par email
+    /* // Récupération des informations utilisateur par email
     this.userService.GetUserByEmail(this.loginUser.email).subscribe({
       next: async data => {
         console.log("User data fetched from server:", data);
@@ -44,16 +44,10 @@ export class LoginPageComponent {
           this.startUserSession(this.validUserDTO); 
           this.sessionStatus = `Session started for user: ${this.validUserDTO.name}`; 
           console.log(this.sessionStatus);
-          
-          
-          
-          
         } else {
           console.log("Failed to login user. Invalid password.");
           this.errorMessage = "Invalid credentials. Please try again.";
-         
         }
-        
       },
       
       error: err => {
@@ -62,7 +56,7 @@ export class LoginPageComponent {
         
       }
       
-    });
+    }); */
     
   }
 
