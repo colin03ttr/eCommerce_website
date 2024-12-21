@@ -1,7 +1,5 @@
 import express, {Request,Response,NextFunction} from 'express';
 import sequelize from './sequelize';
-import learningPackagesRoutes from './routes/learningPackage';
-import learningFactsRoutes from './routes/learningFact';
 import userRoutes from './routes/user';
 import watchRoutes from './routes/watch';
 import swaggerJSDoc from 'swagger-jsdoc';
