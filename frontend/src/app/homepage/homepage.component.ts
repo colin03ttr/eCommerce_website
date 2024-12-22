@@ -16,18 +16,18 @@ export class HomepageComponent {
   private readonly userSettingsService = inject(UserSettingsService);
   title = 'ecommerce_webapp';
   sessionStatus : boolean | null = null;
-  loggedUser: UserDTO | null = null;
+  user: UserDTO | null = null;
   ngOnInit(): void {
     this.sessionStatus = this.userSettingsService.isSessionActive();
     if(this.sessionStatus)
-    {this.loggedUser = this.getLoggedUser();}
+    {this.getLoggedUser().then(user => this.user = user);}
   }
 
   isSessionActive(): boolean {
     return this.userSettingsService.isSessionActive();
   }
 
-  getLoggedUser(): UserDTO | null {
+  getLoggedUser(): Promise<UserDTO | null> {
     return this.userSettingsService.getLoggedUser(); 
   }
 }

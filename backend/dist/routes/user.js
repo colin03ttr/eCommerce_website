@@ -195,9 +195,9 @@ router.post('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, functi
  */
 router.put('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.params;
-    const { id, name, email: newEmail, password, solde, creationDate, discount } = req.body;
+    const { id, name, email: newEmail, solde, discount } = req.body;
     try {
-        const updated = yield user_1.default.update({ id, name, email: newEmail, password, solde, creationDate, discount }, { where: { email } });
+        const updated = yield user_1.default.update({ id, name, email: newEmail, solde, discount }, { where: { email } });
         if (updated[0] > 0) {
             res.json({ message: 'User updated successfully.' });
         }

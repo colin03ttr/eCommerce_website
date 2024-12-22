@@ -26,11 +26,11 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
     console.log('MenuNavBarComponent.ngOnDestroy()');
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     console.log('MenuNavBarComponent.ngOnInit()');
     // looks for logged user
     if(this.userSettingsService.isSessionActive())
-      this.user = this.userSettingsService.getLoggedUser();
+      this.user = await this.userSettingsService.getLoggedUser();
   }
 
   /**

@@ -15,7 +15,7 @@ import e from 'express';
 })
 export class ProfilePageComponent implements OnInit {
   addedSolde: number = 0; // Pour ajouter au solde
-  user: UserDTO | null = null; // Stocke les données utilisateur
+  user: { id: number, name: string, email: string, solde: number, discount: number } | null = null; // Stocke les données utilisateur
   soldeVisible: boolean = false; // Contrôle la visibilité du solde
   discountVisible: boolean = false; // Contrôle la visibilité de la réduction
   formChanged: boolean = false;
@@ -23,12 +23,16 @@ export class ProfilePageComponent implements OnInit {
   
   constructor(private userService: userService, protected userSettingsService: UserSettingsService) {  }
 
-  ngOnInit(): void {
-    this.user = this.userSettingsService.getLoggedUser(); // Récupère les données utilisateur stockées
-    if(this.user){
-      console.log('Données utilisateur récupérées :', this.user);
-    }else{
-      console.error('Aucune donnée utilisateur récupérée.');
+  async ngOnInit(): Promise<void> {
+    try {
+      this.user = await this.userSettingsService.getLoggedUser(); // Récupère les données utilisateur stockées
+      if(this.user){
+        console.log('Données utilisateur récupérées :', this.user);
+      }else{
+        console.error('Aucune donnée utilisateur récupérée.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données utilisateur :', error);
     }
   }
 
@@ -56,8 +60,6 @@ export class ProfilePageComponent implements OnInit {
         },
     });
 
-    //update user session
-    this.userSettingsService.updateSession(this.user)
     window.location.reload();
 }
 

@@ -14,8 +14,6 @@ import { FormsModule } from '@angular/forms';
 export class UsersListPageComponent {
   private readonly userService = inject(userService);
   usersDTO: UserDTO[] = [];
-  newUser: { name: string; email: string; password: string } = { name: '', email: '', password: '' };
-  showForm: boolean = false;
 
   onClickReloadDTO() {
     this.userService.getusersDTO().subscribe({
@@ -26,27 +24,6 @@ export class UsersListPageComponent {
       },
       error: err => {
         console.log('Failed to load Users from Http server', err);
-      }
-    });
-  }
-
-  onClickDeployForm() {
-    if (this.showForm) {
-      this.showForm = false;
-    } else {
-      this.showForm = true;
-    }
-  }
-
-  onSubmit() {
-    console.log(this.newUser);
-    this.userService.addUser(this.newUser).subscribe({
-      next: data => {
-        console.log("User added successfully");
-        this.onClickReloadDTO();
-      },
-      error: err => {
-        console.log("Failed to add User", err);
       }
     });
   }

@@ -187,10 +187,10 @@ router.post('/api/users', async (req: Request, res: Response) => {
  */
 router.put('/api/users/:email', async (req, res) => {
     const { email } = req.params;
-    const { id, name, email: newEmail, password, solde, creationDate, discount } = req.body;
+    const { id, name, email: newEmail, solde, discount } = req.body;
     try {
         const updated = await User.update(
-            { id, name, email: newEmail, password, solde, creationDate, discount },
+            { id, name, email: newEmail, solde, discount },
             { where: { email } }
         );
         if (updated[0] > 0) {
