@@ -32,7 +32,9 @@ export class LoginPageComponent {
       if (response.token) {
         // Save the token to localStorage or cookies
         localStorage.setItem('jwtToken', response.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/']).then(() => {
+          window.location.reload();
+        });
       }
     } catch (error) {
       // Handle errors and display an appropriate message
