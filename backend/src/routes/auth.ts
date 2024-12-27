@@ -141,6 +141,44 @@ router.get('/api/profile', authenticateToken, async (req: any, res: Response) =>
         res.status(500).json({ error: 'An error occurred while fetching the profile.' });
     }
 });
+router.put('/api/profile', authenticateToken, async (req: any, res: Response) => {
+    try {
+        const user = await User.findByPk((req as any).user.id);
+
+        if (!user) {
+            res.status(404).json({ error: 'User not found.' });
+            return;
+        }
+
+        if (req.body.name) {
+            user.name = req.body.name;
+        }
+        if (req.body.email) {
+            user.email = req.body.email;
+        }
+        if (req.body.solde) {
+            user.solde = req.body.solde;
+        }
+        if (req.body.discount) {
+            user.discount = req.body.discount;
+        }
+
+        await user.save();
+
+        res.json({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            solde: user.solde,
+            creationDate: user.creationdate,
+            discount: user.discount
+        });
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        res.status(500).json({ error: 'An error occurred while updating the profile.' });
+    }
+});
+
 function authenticateToken(req: Request, res: Response, next: NextFunction): void {
     const token = req.header('Authorization')?.split(' ')[1];
     if (!token) {

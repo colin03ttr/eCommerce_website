@@ -3,8 +3,6 @@ import { UserSettingsService } from '../user-settings.service';
 import { userService } from '../user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserDTO } from '../DTOs/userDTO';
-import e from 'express';
 
 @Component({
   selector: 'app-profile-page',
@@ -48,18 +46,15 @@ export class ProfilePageComponent implements OnInit {
   editProfile(): void {
     if (!this.user) return;
     // update user in database
-    this.userService.updateUserByEmail(this.user.email, this.user).subscribe({
-        next: (updatedUser) => {
-            console.log('Profil mis à jour avec succès :', updatedUser);
-            this.user = updatedUser; // Met à jour localement
-            // this.updatedUser = {}; // Réinitialise les champs de mise à jour
-            this.addedSolde = 0; // Réinitialise le montant ajouté
-        },
-        error: (err) => {
-            console.error('Erreur lors de la mise à jour du profil :', err);
-        },
+    this.userService.updateUser(this.user).subscribe({
+      next: data => {
+        console.log('User updated successfully:', data);
+        this.formChanged = false;
+      },
+      error: err => {
+        console.error('Failed to update user:', err);
+      }
     });
-
     window.location.reload();
 }
 

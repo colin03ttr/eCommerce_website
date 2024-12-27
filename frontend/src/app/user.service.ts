@@ -29,8 +29,24 @@ export class userService {
   }
 
   //put method to update a user
-  updateUserByEmail(email: string, updatedUser: { id: number, name: string, email: string, solde: number, discount: number }): Observable<UserDTO> {
-    return this.httpClient.put<UserDTO>(`${this.apiUrl}/${encodeURIComponent(email)}`, updatedUser);
+  updateUser(updatedUser: { id: number, name: string, email: string, solde: number, discount: number }): Observable<UserDTO> {
+    const token = localStorage.getItem('jwtToken');
+
+    if (!token) {
+      console.error("No token found. User is not authenticated.");
+      throw new Error("No token available.");
+    }
+
+    return this.httpClient.put<UserDTO>(`/api/profile`, updatedUser, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).pipe(
+      catchError(error => {
+        console.error('Error updating user:', error);
+        return throwError(error);
+      })
+    );
   }
 
   constructor() { }
