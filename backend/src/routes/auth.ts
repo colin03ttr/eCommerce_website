@@ -182,7 +182,7 @@ router.put('/api/profile', authenticateToken, async (req: any, res: Response) =>
     }
 });
 
-function authenticateToken(req: Request, res: Response, next: NextFunction): void {
+export function authenticateToken(req: Request, res: Response, next: NextFunction): void {
     const token = req.header('Authorization')?.split(' ')[1];
     if (!token) {
         res.status(401).json({ error: 'Access denied. No token provided.' });

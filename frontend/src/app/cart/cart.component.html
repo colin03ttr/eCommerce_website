@@ -1,0 +1,17 @@
+<div *ngIf="loading">Chargement du panier...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<div *ngIf="!loading && !error">
+  <h1>Mon Panier</h1>
+  <div *ngIf="cartItems.length === 0">Votre panier est vide.</div>
+  <ul *ngIf="cartItems.length > 0">
+    <li *ngFor="let item of cartItems" class="cart-item">
+      <img [src]="item.Watch.imageurl" alt="{{ item.Watch.name }}" width="100" />
+      <div>
+        <p><strong>{{ item.Watch.name }}</strong></p>
+        <p>Quantité : {{ item.quantity }}</p>
+        <p>Prix : {{ item.Watch.price }} €</p>
+      </div>
+    </li>
+  </ul>
+</div>

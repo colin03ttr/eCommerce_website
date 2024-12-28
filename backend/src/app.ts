@@ -5,6 +5,13 @@ import watchRoutes from './routes/watch';
 import authRoutes from './routes/auth';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import orderRoutes from './routes/orderRouter';
+import cartRouter from './routes/cartRouter'; // Chemin vers votre fichier `cartRouter.ts`
+
+
+
+
+
 
 const PORT = 3000;
 
@@ -50,7 +57,8 @@ app.get('/swagger.json', (req, res) => {
 app.use(userRoutes);
 app.use(watchRoutes);
 app.use(authRoutes);
-
+app.use(orderRoutes);
+app.use(cartRouter);
 
 /**
  * @openapi
