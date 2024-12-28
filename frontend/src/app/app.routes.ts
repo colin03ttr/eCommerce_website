@@ -8,6 +8,8 @@ import { ProductDetailsComponent } from './detailed-product/detailed-product.com
 import { HomepageComponent } from './homepage/homepage.component';
 import { ProfilePageComponent } from './profile/profile.component';
 import { prefix } from '@fortawesome/free-solid-svg-icons';
+import { CartComponent } from './cart/cart.component';
+
 
 export const routes: Routes = [
     {path: 'users', component: UsersListPageComponent},
@@ -18,4 +20,6 @@ export const routes: Routes = [
     {path: 'detailed-product/:id', component: ProductDetailsComponent },
     {path: '', component: HomepageComponent},
     {path: 'profile/:id', component: ProfilePageComponent },
+    { path: 'cart', component: CartComponent },
+
 ];
