@@ -3,24 +3,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Cart Model
+exports.OrderItem = void 0;
 const sequelize_1 = require("sequelize");
 const sequelize_2 = __importDefault(require("../sequelize"));
-class Cart extends sequelize_1.Model {
+class OrderItem extends sequelize_1.Model {
 }
-Cart.init({
+exports.OrderItem = OrderItem;
+OrderItem.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    userId: {
+    orderId: {
         type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    watchId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    quantity: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    price: {
+        type: sequelize_1.DataTypes.FLOAT,
         allowNull: false,
     },
 }, {
     sequelize: sequelize_2.default,
-    tableName: 'carts',
+    tableName: 'order_items',
     timestamps: false,
 });
-exports.default = Cart;
+exports.default = OrderItem;

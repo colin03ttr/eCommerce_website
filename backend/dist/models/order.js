@@ -1,31 +1,41 @@
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../sequelize');
-const User = require('./user');
-
-class Order extends Model {}
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Order = void 0;
+const sequelize_1 = require("sequelize");
+const sequelize_2 = __importDefault(require("../sequelize"));
+class Order extends sequelize_1.Model {
+}
+exports.Order = Order;
 Order.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     userId: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
-        references: { model: User, key: 'id' },
     },
-    totalAmount: {
-        type: DataTypes.FLOAT,
+    total: {
+        type: sequelize_1.DataTypes.FLOAT,
         allowNull: false,
+    },
+    status: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'Pending',
+    },
+    createdAt: {
+        type: sequelize_1.DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize_1.DataTypes.NOW,
     },
 }, {
-    sequelize,
+    sequelize: sequelize_2.default,
     tableName: 'orders',
-    timestamps: true, // Ajoute les champs createdAt et updatedAt
+    timestamps: false,
 });
-
-Order.belongsTo(User, { foreignKey: 'userId' });
-User.hasMany(Order, { foreignKey: 'userId' });
-
-module.exports = Order;
+exports.default = Order;

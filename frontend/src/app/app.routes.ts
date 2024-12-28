@@ -22,4 +22,5 @@ export const routes: Routes = [
     {path: 'home', component: HomepageComponent },
     {path: '', component: AppComponent},
     {path: 'profile/:id', component: ProfilePageComponent },
+    {path: 'admin', component: AdminComponent },
 ];

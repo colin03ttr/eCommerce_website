@@ -1,41 +1,37 @@
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../sequelize');
-const Cart = require('./cart');
-const Watch = require('./watch');
-
-class CartItem extends Model {}
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CartItem = void 0;
+// CartItem Model
+const sequelize_1 = require("sequelize");
+const sequelize_2 = __importDefault(require("../sequelize"));
+class CartItem extends sequelize_1.Model {
+}
+exports.CartItem = CartItem;
 CartItem.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
     cartId: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
-        references: { model: Cart, key: 'id' },
     },
     watchId: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
-        references: { model: Watch, key: 'id' },
     },
     quantity: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 1,
     },
 }, {
-    sequelize,
+    sequelize: sequelize_2.default,
     tableName: 'cart_items',
     timestamps: false,
 });
-
-CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
-Cart.hasMany(CartItem, { foreignKey: 'cartId' });
-
-CartItem.belongsTo(Watch, { foreignKey: 'watchId' });
-Watch.hasMany(CartItem, { foreignKey: 'watchId' });
-
-module.exports = CartItem;
+exports.default = CartItem;
