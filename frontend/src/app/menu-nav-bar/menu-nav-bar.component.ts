@@ -3,20 +3,21 @@ import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { NgbDropdown, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { UserSettingsService } from '../user-settings.service';
 import { UserDTO } from '../DTOs/userDTO';
 
 @Component({
   selector: 'app-menu-nav-bar',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, FontAwesomeModule,CommonModule],
+  imports: [RouterLink, RouterOutlet, NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, FontAwesomeModule,CommonModule, NgIf],
   templateUrl: './menu-nav-bar.component.html',
   styleUrl: './menu-nav-bar.component.css'
 })
 export class MenuNavBarComponent implements OnInit, OnDestroy {
   faHome = faHome;
   user: UserDTO | null = null;
+  isAdmin: boolean = false;
 
   constructor(private router: Router, private userSettingsService: UserSettingsService) {
     console.log('MenuNavBarComponent.constructor()');
@@ -30,7 +31,9 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
     console.log('MenuNavBarComponent.ngOnInit()');
     // looks for logged user
     if(this.userSettingsService.isSessionActive())
+    {
       this.user = await this.userSettingsService.getLoggedUser();
+    }
   }
 
   /**

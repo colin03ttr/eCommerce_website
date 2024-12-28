@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0a0a3a;">
+<nav *ngIf="!this.user?.isAdmin" class="navbar navbar-expand-lg navbar-light" style="background-color: #0a0a3a;">
     <a class="navbar-brand" routerLink="/" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">
         <fa-icon [icon]="faHome" style="color: white;"></fa-icon> Home
     </a>
@@ -21,6 +21,18 @@
             <a class="nav-link" routerLink="/login-or-register" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600; padding: 10px 15px; transition: color 0.3s ease, transform 0.3s ease;">
                 Login/Register
             </a>
+        </li>
+    </ul>
+</nav>
+<nav *ngIf="this.user?.isAdmin" class="navbar navbar-expand-lg navbar-light" style="background-color: #0a0a3a;">
+    <ul class="navbar-nav mr-auto">
+        <a class="navbar-brand" routerLink="/admin" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">
+            <fa-icon [icon]="faHome" style="color: white;"></fa-icon> Home
+        </a>
+    </ul>
+    <ul class="navbar-nav position-absolute" style="right: 0; margin-right: 20px;">
+        <li class="nav-item btn">
+            <a class="nav-link" (click)="logout()">Logout</a>
         </li>
     </ul>
 </nav>

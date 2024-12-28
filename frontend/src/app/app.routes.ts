@@ -7,7 +7,8 @@ import { ProductPageComponent } from './products/products.component';
 import { ProductDetailsComponent } from './detailed-product/detailed-product.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { ProfilePageComponent } from './profile/profile.component';
-import { prefix } from '@fortawesome/free-solid-svg-icons';
+import { AdminComponent } from './admin/admin.component';
+import { AppComponent } from './app.component';
 
 export const routes: Routes = [
     {path: 'users', component: UsersListPageComponent},
@@ -16,6 +17,8 @@ export const routes: Routes = [
     {path: 'login-or-register', component: LoginOrRegisterComponent },
     {path: 'products', component: ProductPageComponent },
     {path: 'detailed-product/:id', component: ProductDetailsComponent },
-    {path: '', component: HomepageComponent},
+    {path: 'home', component: HomepageComponent },
+    {path: '', component: AppComponent},
     {path: 'profile/:id', component: ProfilePageComponent },
+    {path: 'admin', component: AdminComponent}
 ];

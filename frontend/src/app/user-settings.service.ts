@@ -89,6 +89,7 @@ export class UserSettingsService{
             solde: userInfo.solde,
             creationdate: userInfo.creationDate,
             discount: userInfo.discount,
+            isAdmin: userInfo.isAdmin
           }
       }catch (error) {
         console.error('Error retrieving user information:', error);
@@ -102,7 +103,9 @@ export class UserSettingsService{
       console.log("Logging out user.");
       localStorage.removeItem('jwtToken');
       this.sessionStatus = "No active session";
-      this.router.navigate(['/']); 
+      this.router.navigate(['/']).then(() => {
+        window.location.reload();
+      }); 
     }
   }
 }

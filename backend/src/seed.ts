@@ -1,12 +1,27 @@
-import sequelize from './sequelize'; // Connexion à la DB
-import Watch from './models/watch'; // Modèle Sequelize
+import sequelize from './sequelize'; 
+import Watch from './models/watch'; 
+import User from './models/user'; 
+import bcrypt from 'bcrypt';
 
 // Fonction pour insérer des données
 const seedDatabase = async () => {
     try {
         // Synchroniser les modèles (si nécessaire)
         await sequelize.sync();
-
+        // Hachage du mot de passe
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash('admin', saltRounds);
+        await User.bulkCreate([
+            {
+                name: 'admin',
+                email: 'admin@admin.fr',
+                password: hashedPassword,
+                solde: 0,
+                creationdate: new Date(),
+                discount: 0,
+                isAdmin: true,
+            }
+        ])
         // Insert data into the table
         await Watch.bulkCreate([
             {

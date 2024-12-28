@@ -5,6 +5,7 @@ export interface UserDTO {
     solde: number ;
     creationdate: Date;
     discount: number;
+    isAdmin: boolean;
   }
   
   export class UserModel {
@@ -14,6 +15,7 @@ export interface UserDTO {
     solde: number ;
     creationdate: Date;
     discount: number;
+    isAdmin: boolean;
     
   
     constructor(src: UserDTO) {
@@ -23,6 +25,7 @@ export interface UserDTO {
       this.solde = src.solde || 0;
       this.creationdate = src.creationdate || Date.now;
       this.discount = src.discount || 0 ;
+      this.isAdmin = src.isAdmin || false;
     }
     
   }

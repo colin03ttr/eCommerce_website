@@ -96,7 +96,8 @@ router.post('/api/login-page', (req, res) => __awaiter(void 0, void 0, void 0, f
                 name: user.name,
                 email: user.email,
                 solde: user.solde,
-                discount: user.discount
+                discount: user.discount,
+                isAdmin: user.isAdmin
             }
         });
     }
@@ -133,7 +134,8 @@ router.get('/api/profile', authenticateToken, (req, res) => __awaiter(void 0, vo
             email: user.email,
             solde: user.solde,
             creationDate: user.creationdate,
-            discount: user.discount
+            discount: user.discount,
+            isAdmin: user.isAdmin
         });
     }
     catch (err) {
@@ -167,7 +169,8 @@ router.put('/api/profile', authenticateToken, (req, res) => __awaiter(void 0, vo
             email: user.email,
             solde: user.solde,
             creationDate: user.creationdate,
-            discount: user.discount
+            discount: user.discount,
+            isAdmin: user.isAdmin
         });
     }
     catch (err) {
