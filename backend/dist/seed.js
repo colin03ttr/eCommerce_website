@@ -170,11 +170,11 @@ const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
             }
         ]);
         console.log('Data has been successfully inserted.');
-        process.exit(0); // Exit the script
+        process.exit(0);
     }
     catch (err) {
-        console.error('Erreur lors de l\'insertion des données :', err);
-        process.exit(1); // Quitter avec une erreur
+        console.error('Erreur lors de l\'insertion des commandes :', err);
+        process.exit(1);
     }
 });
 // Lancer la fonction

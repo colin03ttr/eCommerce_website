@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../sequelize';
 
 
+
 class User extends Model{
     public id!: number;
     public name!: string;
@@ -10,6 +11,7 @@ class User extends Model{
     public solde!: number;
     public creationdate!: Date;
     public discount!: number;
+    
 
 }
 
@@ -52,6 +54,7 @@ User.init({
 
 
     }
+    
     
 }, {
     sequelize,

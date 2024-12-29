@@ -9,6 +9,8 @@
             <p class="watch-description">{{ watch.description }}</p>
             <p class="watch-price"><span>${{ watch.price.toFixed(2) }}</span></p>
             <p><strong class="brand-label">Brand: </strong> <span class="watch-brand">{{ watch.brand }}</span></p>
+            
+            <button class="btn-add-to-order" (click)="addToOrder(1)">Ajouter à la commande</button>
         </div>
     </div>
     <div *ngIf="!watch">
@@ -103,11 +105,13 @@
     }
 
     .brand-label {
-        color: #333; /
+        color: #333;
     }
+
     .watch-brand {
-    color: #333; /* Assure que le nom de la marque sera en noir */
+        color: #333;
     }
+
     .btn-primary {
         background-color: #333;
         border: none;
@@ -124,6 +128,22 @@
 
     .btn-primary:hover {
         background-color: #000000;
+    }
+
+    .btn-add-to-order {
+        background-color: #d2b485;
+        border: none;
+        color: #fff;
+        font-size: 1em;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-add-to-order:hover {
+        background-color: #b59570;
     }
 
     @media (max-width: 768px) {

@@ -1,5 +1,7 @@
 import sequelize from './sequelize'; // Connexion à la DB
 import Watch from './models/watch'; // Modèle Sequelize
+import Order from './models/order'; // Modèle Sequelize
+import OrderWatch from './models/orderWatch';
 
 // Fonction pour insérer des données
 const seedDatabase = async () => {
@@ -157,14 +159,21 @@ const seedDatabase = async () => {
                 brand: 'Casio',
             }
         ]);
+        
 
         console.log('Data has been successfully inserted.');
-        process.exit(0); // Exit the script
+        
+        process.exit(0);
     } catch (err) {
-        console.error('Erreur lors de l\'insertion des données :', err);
-        process.exit(1); // Quitter avec une erreur
+        console.error('Erreur lors de l\'insertion des commandes :', err);
+        process.exit(1);
     }
-};
+    } 
+    
+
+    
+;
+
 
 // Lancer la fonction
 seedDatabase();
