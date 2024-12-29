@@ -1,4 +1,5 @@
-<nav *ngIf="!this.user?.isAdmin" class="navbar navbar-expand-lg navbar-light" style="background-color: #0a0a3a;">
+<!-- Navbar for non-admin or no user -->
+<nav *ngIf="!user || !user.isAdmin" class="navbar navbar-expand-lg navbar-light" style="background-color: #0a0a3a;">
     <a class="navbar-brand" routerLink="/" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">
         <fa-icon [icon]="faHome" style="color: white;"></fa-icon> Home
     </a>
@@ -12,8 +13,8 @@
     </ul>
     <ul class="navbar-nav position-absolute" style="right: 0; margin-right: 20px;">
         <li class="nav-item" *ngIf="isLoggedIn()" ngbDropdown>
-            <a ngbDropdownToggle class="nav-link dropdown-toggle" role="button" placement="top-end" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600; padding: 10px 15px; transition: color 0.3s ease, transform 0.3s ease;">
-                {{ this.user?.name }}
+            <a ngbDropdownToggle class="nav-link dropdown-toggle" role="button" placement="top-end" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600; padding: 10px 15px;">
+                {{ user?.name }}
             </a>
             <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" style="right: 0; left: auto;">
                 <button class="dropdown-item" (click)="goToProfile()">Profile</button>
@@ -21,17 +22,19 @@
             </div>
         </li>
         <li class="nav-item" *ngIf="!isLoggedIn()">
-            <a class="nav-link" routerLink="/login-or-register" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600; padding: 10px 15px; transition: color 0.3s ease, transform 0.3s ease;">
+            <a class="nav-link" routerLink="/login-or-register" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600; padding: 10px 15px;">
                 Login/Register
             </a>
         </li>
     </ul>
 </nav>
-<nav *ngIf="this.user?.isAdmin" class="navbar navbar-expand-lg navbar-light" style="background-color: #0a0a3a;">
+
+<!-- Navbar for admin users -->
+<nav *ngIf="user && user.isAdmin" class="navbar navbar-expand-lg navbar-light" style="background-color: #0a0a3a;">
+    <a class="navbar-brand" routerLink="/admin" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">
+        <fa-icon [icon]="faHome" style="color: white;"></fa-icon> Home
+    </a>
     <ul class="navbar-nav mr-auto">
-        <a class="navbar-brand" routerLink="/admin" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">
-            <fa-icon [icon]="faHome" style="color: white;"></fa-icon> Home
-        </a>
         <li class="nav-item">
             <a class="nav-link" routerLink="/admin/products" style="color: white; font-family: 'Roboto', sans-serif; font-weight: 600;">Products</a>
         </li>
@@ -43,6 +46,7 @@
     </ul>
 </nav>
 <router-outlet></router-outlet>
+
 
 <style>
     /* Style pour les éléments de la navbar */

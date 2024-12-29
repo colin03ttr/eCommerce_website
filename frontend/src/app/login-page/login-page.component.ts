@@ -27,14 +27,13 @@ export class LoginPageComponent {
     console.log("Email: ", this.loginUser.email);
     console.log("Password: ", this.loginUser.password);
     try {
-      console.log("Submitting login form");
       const response = await this.userService.login(this.loginUser);
       if (response.token) {
         // Save the token to localStorage or cookies
         localStorage.setItem('jwtToken', response.token);
         // get logged user
         const user = await this.userSettingsService.getLoggedUser();
-        if(user?.isAdmin) {
+        if (user?.isAdmin) {
           this.router.navigate(['/admin']).then(() => {
             window.location.reload();
           });
@@ -44,11 +43,19 @@ export class LoginPageComponent {
           });
         }
       }
-    } catch (error) {
-      // Handle errors and display an appropriate message
+    } catch (error: any) {
+      // Handle specific errors
       console.error("Login error:", error);
-      this.errormsg = (error as string) ?? 'An error occurred. Please try again later.';
-    }    
+
+      // Check if the error is a 404 or has specific details
+      if (error.status === 404) {
+        this.errormsg = 'User not found. Please check your email and password.';
+      } else if (error.error && typeof error.error === 'string') {
+        this.errormsg = error.error; // Use server-provided error message if available
+      } else {
+        this.errormsg = 'An unexpected error occurred. Please try again later.';
+      }
+    }
   }
 
   isSessionActive(): boolean {
