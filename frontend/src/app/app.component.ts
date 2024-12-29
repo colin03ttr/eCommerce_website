@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     console.log('AppComponent.ngOnInit()');
-
+/* 
     if (this.userSettingsService.isSessionActive()) {
       console.log('Session active');
       this.userSettingsService.getLoggedUser().then((user) => {
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
     {
       console.log('Session not active');
       this.router.navigate(['/home']);
-    }
+    } */
   }
   
 }

@@ -10,6 +10,7 @@ import { ProfilePageComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { AppComponent } from './app.component';
 import { CartComponent } from './cart/cart.component';
+import { AdminProductsComponent } from './admin-products/admin-products.component';
 
 
 export const routes: Routes = [
@@ -23,4 +24,5 @@ export const routes: Routes = [
     {path: '', component: AppComponent},
     {path: 'profile/:id', component: ProfilePageComponent },
     {path: 'admin', component: AdminComponent },
+    {path: 'admin/products', component: AdminProductsComponent },
 ];

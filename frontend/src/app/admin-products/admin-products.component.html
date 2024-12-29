@@ -1,0 +1,152 @@
+<div class="admin-background">
+    <div class="container py-5">
+      <h1 class="text-center mb-4" style="font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 600; color: #333; text-transform: uppercase; letter-spacing: 2px; line-height: 1.2;">
+        Admin Panel: Products
+      </h1>
+  
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+          <label for="sortDropdown" class="form-label me-2" style="font-size: 16px; font-weight: 500;">Sort by:</label>
+          <select id="sortDropdown" class="form-select" style="width: auto;" (change)="sortProducts($event)">
+            <option value="">None</option>
+            <option value="asc">Price: Low to High</option>
+            <option value="desc">Price: High to Low</option>
+          </select>
+        </div>
+        <button class="btn btn-success" style="font-size: 16px; width: fit-content;" (click)="toggleForm()">Add Product</button>
+      </div>
+
+      <!-- Add Product Form -->
+      <div class="card mb-4" id="addProductForm" *ngIf="isFormVisible" style="padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+        <h5 class="mb-3" style="font-size: 18px; font-weight: 600; color: #333;">Add New Product</h5>
+        <form (ngSubmit)="addProduct()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="productName" class="form-label" style="font-size: 14px;">Product Name</label>
+                <input type="text" id="productName" class="form-control" placeholder="Enter product name" [(ngModel)]="newWatch.name" name="name">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="productDescription" class="form-label" style="font-size: 14px;">Description</label>
+                <textarea id="productDescription" class="form-control" placeholder="Enter product description" [(ngModel)]="newWatch.description" name="description"></textarea>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="productPrice" class="form-label" style="font-size: 14px;">Price</label>
+                <input type="number" id="productPrice" class="form-control" placeholder="Enter product price" [(ngModel)]="newWatch.price" name="price">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="productBrand" class="form-label" style="font-size: 14px;">Brand</label>
+                <input type="text" id="productBrand" class="form-control" placeholder="Enter product brand" [(ngModel)]="newWatch.brand" name="brand">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="productImage" class="form-label" style="font-size: 14px;">Image URL</label>
+                <input type="text" id="productImage" class="form-control" placeholder="Enter image URL" [(ngModel)]="newWatch.imageurl" name="imageurl">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+  
+      <div class="row">
+        <ul class="list-group w-100">
+          <li *ngFor="let watch of watchesDTO" class="list-group-item">
+            <form class="row align-items-center" (ngSubmit)="editProduct(watch)">
+              <div class="col-md-1 text-center">
+                <img [src]="watch.imageurl" alt="{{watch.name}}" style="width: 60px; height: 60px; object-fit: cover;">
+              </div>
+              <div class="col-md-2">
+                <label for="name-{{watch.id}}" class="form-label" style="font-size: 14px;">Name</label>
+                <input id="name-{{watch.id}}" [(ngModel)]="watch.name" name="name" class="form-control form-control-sm" type="text">
+              </div>
+              <div class="col-md-3">
+                <label for="description-{{watch.id}}" class="form-label" style="font-size: 14px;">Description</label>
+                <textarea id="description-{{watch.id}}" [(ngModel)]="watch.description" name="description" class="form-control form-control-sm"></textarea>
+              </div>
+              <div class="col-md-1">
+                <label for="price-{{watch.id}}" class="form-label" style="font-size: 14px;">Price</label>
+                <input id="price-{{watch.id}}" [(ngModel)]="watch.price" name="price" class="form-control form-control-sm" type="number">
+              </div>
+              <div class="col-md-2">
+                <label for="brand-{{watch.id}}" class="form-label" style="font-size: 14px;">Brand</label>
+                <input id="brand-{{watch.id}}" [(ngModel)]="watch.brand" name="brand" class="form-control form-control-sm" type="text">
+              </div>
+              <div class="col-md-2">
+                <label for="image-{{watch.id}}" class="form-label" style="font-size: 14px;">Image URL</label>
+                <input id="image-{{watch.id}}" [(ngModel)]="watch.imageurl" name="imageurl" class="form-control form-control-sm" type="text">
+              </div>
+              <div class="col-md-1 text-center d-flex flex-column align-items-center justify-content-between">
+                <button type="submit" class="btn btn-primary btn-sm mb-2">Edit</button>
+                <button type="button" class="btn btn-danger btn-sm" (click)="confirmDelete(watch.id)">Delete</button>
+              </div>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    .admin-background {
+      background-color: #f9f9f9;
+      min-height: 100vh;
+      width: 100%;
+      padding: 20px 0;
+    }
+  
+    h1 {
+      font-family: 'Arial', sans-serif;
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+      text-transform: uppercase;
+    }
+  
+    .list-group-item {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 15px;
+      background-color: #fff;
+    }
+
+    .list-group-item img {
+      border-radius: 5px;
+    }
+
+    .btn {
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background-color: #b21f2d;
+    }
+
+    .form-control-sm {
+      font-size: 12px;
+    }
+
+    .row {
+      margin-bottom: 15px;
+    }
+
+    .d-flex.flex-column.align-items-center {
+      height: 100%;
+    }
+
+    .btn-sm {
+      width: 100%;
+    }
+  </style>
