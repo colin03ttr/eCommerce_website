@@ -7,6 +7,13 @@ import cartRoutes from './routes/cart';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import orderRoutes from './routes/order';
+import orderRoutes from './routes/orderRouter';
+import cartRouter from './routes/cartRouter'; // Chemin vers votre fichier `cartRouter.ts`
+
+
+
+
+
 
 import cart from './routes/cart';
 import Cart from './models/cart';
@@ -57,6 +64,8 @@ app.use(authRoutes);
 app.use(cartRoutes);
 app.use(orderRoutes);
 
+app.use(orderRoutes);
+app.use(cartRouter);
 
 /**
  * @openapi

@@ -12,13 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const sequelize_1 = __importDefault(require("./sequelize")); // Connexion à la DB
-const watch_1 = __importDefault(require("./models/watch")); // Modèle Sequelize
+const sequelize_1 = __importDefault(require("./sequelize"));
+const watch_1 = __importDefault(require("./models/watch"));
+const user_1 = __importDefault(require("./models/user"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 // Fonction pour insérer des données
 const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Synchroniser les modèles (si nécessaire)
         yield sequelize_1.default.sync();
+        // Hachage du mot de passe
+        const saltRounds = 10;
+        const hashedPassword = yield bcrypt_1.default.hash('admin', saltRounds);
+        yield user_1.default.bulkCreate([
+            {
+                name: 'admin',
+                email: 'admin@admin.fr',
+                password: hashedPassword,
+                solde: 0,
+                creationdate: new Date(),
+                discount: 0,
+                isAdmin: true,
+            }
+        ]);
         // Insert data into the table
         yield watch_1.default.bulkCreate([
             {

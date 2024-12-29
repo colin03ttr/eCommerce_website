@@ -20,7 +20,14 @@ export class HomepageComponent {
   ngOnInit(): void {
     this.sessionStatus = this.userSettingsService.isSessionActive();
     if(this.sessionStatus)
-    {this.getLoggedUser().then(user => this.user = user);}
+    {this.getLoggedUser().then(user => this.user = user);
+      if(this.user?.isAdmin)
+      {
+        this.router.navigate(['/admin']).then(() => {
+          window.location.reload();
+        });
+      }
+    }
   }
 
   isSessionActive(): boolean {

@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
-import { Model, DataTypes, Association } from 'sequelize';
-import OrderWatch from './models/orderWatch';
+import { DataTypes, Model } from 'sequelize';
+
 
 // Configuration de la base de données
 const sequelize = new Sequelize('db', 'postgres', 'root', {

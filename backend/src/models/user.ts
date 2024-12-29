@@ -11,8 +11,7 @@ class User extends Model{
     public solde!: number;
     public creationdate!: Date;
     public discount!: number;
-    
-
+    public isAdmin!: boolean;
 }
 
 User.init({
@@ -50,12 +49,12 @@ User.init({
         type:DataTypes.INTEGER,
         allowNull:false,
         defaultValue:0,
-
-
-
-    }
-    
-    
+    },
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    }    
 }, {
     sequelize,
     tableName: 'users',

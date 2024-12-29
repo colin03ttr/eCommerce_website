@@ -34,17 +34,20 @@ export class UserSettingsService{
           const payload = JSON.parse(payloadJson); // Parse JSON payload
   
           // Check for an expiration field (exp) in the payload
-          if (payload.exp) {
+            if (payload.exp) {
             const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
             const isActive = payload.exp > currentTime; // Valid if current time is before expiration
             console.log(`Session active: ${isActive}`);
-            const timeRemaining = payload.exp * 1000 - new Date().getTime();
-            const minutes = Math.floor(timeRemaining / 60000);
-            const seconds = Math.floor((timeRemaining % 60000) / 1000);
-            console.log(`Session expires in: ${minutes} minutes and ${seconds} seconds`);
+            if (!isActive) {
+              this.logout(); // Call logout if session is not active
+            } else {
+              const timeRemaining = payload.exp * 1000 - new Date().getTime();
+              const minutes = Math.floor(timeRemaining / 60000);
+              const seconds = Math.floor((timeRemaining % 60000) / 1000);
+              console.log(`Session expires in: ${minutes} minutes and ${seconds} seconds`);
+            }
             return isActive;
-          }
-  
+            }
           return false; // If no exp field, consider the session invalid
         } catch (error) {
           console.error('Error parsing JWT token:', error);
@@ -89,6 +92,7 @@ export class UserSettingsService{
             solde: userInfo.solde,
             creationdate: userInfo.creationDate,
             discount: userInfo.discount,
+            isAdmin: userInfo.isAdmin
           }
       }catch (error) {
         console.error('Error retrieving user information:', error);
@@ -102,7 +106,9 @@ export class UserSettingsService{
       console.log("Logging out user.");
       localStorage.removeItem('jwtToken');
       this.sessionStatus = "No active session";
-      this.router.navigate(['/']); 
+      this.router.navigate(['/']).then(() => {
+        window.location.reload();
+      }); 
     }
   }
 }

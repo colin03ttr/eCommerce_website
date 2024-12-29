@@ -95,7 +95,8 @@ router.post('/api/login-page', async (req: Request, res: Response) => {
                 name: user.name,
                 email: user.email,
                 solde: user.solde,
-                discount: user.discount
+                discount: user.discount,
+                isAdmin: user.isAdmin
             }
         });
     } catch (err) {
@@ -134,7 +135,8 @@ router.get('/api/profile', authenticateToken, async (req: any, res: Response) =>
             email: user.email,
             solde: user.solde,
             creationDate: user.creationdate,
-            discount: user.discount
+            discount: user.discount,
+            isAdmin: user.isAdmin
         });
     } catch (err) {
         console.error('Error fetching profile:', err);
@@ -171,7 +173,8 @@ router.put('/api/profile', authenticateToken, async (req: any, res: Response) =>
             email: user.email,
             solde: user.solde,
             creationDate: user.creationdate,
-            discount: user.discount
+            discount: user.discount,
+            isAdmin: user.isAdmin
         });
     } catch (err) {
         console.error('Error updating profile:', err);
@@ -179,7 +182,7 @@ router.put('/api/profile', authenticateToken, async (req: any, res: Response) =>
     }
 });
 
-function authenticateToken(req: Request, res: Response, next: NextFunction): void {
+export function authenticateToken(req: Request, res: Response, next: NextFunction): void {
     const token = req.header('Authorization')?.split(' ')[1];
     if (!token) {
         res.status(401).json({ error: 'Access denied. No token provided.' });

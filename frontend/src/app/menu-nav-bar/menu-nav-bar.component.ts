@@ -18,6 +18,7 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
   faHome = faHome;
   faShoppingCart = faShoppingCart; // Icone pour le panier
   user: UserDTO | null = null;
+  isAdmin: boolean = false;
 
   constructor(private router: Router, private userSettingsService: UserSettingsService) {
     console.log('MenuNavBarComponent.constructor()');
@@ -31,6 +32,7 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
     console.log('MenuNavBarComponent.ngOnInit()');
     if (this.userSettingsService.isSessionActive()) {
       this.user = await this.userSettingsService.getLoggedUser();
+    }
     }
   }
 
