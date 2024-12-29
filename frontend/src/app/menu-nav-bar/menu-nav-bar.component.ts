@@ -34,7 +34,7 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
       this.user = await this.userSettingsService.getLoggedUser();
     }
     }
-  }
+  
 
   isLoggedIn(): boolean {
     return this.userSettingsService.isSessionActive();

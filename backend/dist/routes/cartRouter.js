@@ -13,54 +13,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const cart_1 = __importDefault(require("../models/cart"));
+const cart_1 = require("../models/cart");
+const cartItem_1 = require("../models/cartItem");
 const watch_1 = __importDefault(require("../models/watch"));
+const auth_1 = require("./auth");
 const cartRouter = (0, express_1.Router)();
-/**
- * @swagger
- * /api/cart:
- *   get:
- *     summary: Get all items in the cart
- *     tags:
- *       - Cart
- *     responses:
- *       200:
- *         description: List of cart items.
- *       500:
- *         description: Server error.
- */
-cartRouter.get('/api/cart', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Exemple de route pour récupérer les articles du panier
+cartRouter.get('/cart', auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const cartItems = yield cart_1.default.findAll({ include: [{ model: watch_1.default, as: 'Watch' }] });
-        res.json(cartItems);
+        const cart = yield cart_1.Cart.findOne({ where: { userId: (_a = req.user) === null || _a === void 0 ? void 0 : _a.id } });
+        if (!cart) {
+            res.json({ items: [] }); // Si le panier est vide
+            return; // Arrêtez l'exécution après avoir répondu
+        }
+        const items = yield cartItem_1.CartItem.findAll({
+            where: { cartId: cart.id },
+            include: [watch_1.default],
+        });
+        res.json({ items }); // Répond avec les articles du panier
     }
     catch (err) {
-        console.error('Error fetching cart items:', err);
-        res.status(500).json({ error: 'Failed to fetch cart items.' });
+        console.error(err);
+        res.status(500).json({ error: 'An error occurred while fetching the cart.' });
     }
 }));
-/**
- * @swagger
- * /api/cart:
- *   post:
- *     summary: Add an item to the cart
- *     tags:
- *       - Cart
- *     responses:
- *       201:
- *         description: Item added to the cart.
- *       500:
- *         description: Server error.
- */
-/*cartRouter.post('/api/cart', async (req, res) => {
-  const { watchId, quantity } = req.body;
-  try {
-    const item = await Cart.create({ watchId, quantity });
-    res.status(201).json(item);
-  } catch (err) {
-    console.error('Error adding item to cart:', err);
-    res.status(500).json({ error: 'Failed to add item to cart.' });
-  }
-});
-*/
-exports.default = cartRouter;
+exports.default = cartRouter; // Assurez-vous que cette ligne est bien présente

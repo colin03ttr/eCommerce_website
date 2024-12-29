@@ -1,5 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { DataTypes, Model } from 'sequelize';
+import OrderWatch from './models/orderWatch';
+import { Association } from 'sequelize';
 
 
 // Configuration de la base de données

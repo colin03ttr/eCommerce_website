@@ -53,6 +53,7 @@ app.use(watch_1.default);
 app.use(auth_1.default);
 app.use(cart_1.default);
 app.use(order_1.default);
+app.use(order_1.default);
 /**
  * @openapi
  * /api/liveliness:
