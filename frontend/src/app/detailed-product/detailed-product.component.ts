@@ -84,7 +84,8 @@ export class DetailedProductComponent implements OnInit {
                     });
                 } else {
                     // Aucune commande "pending", crée une nouvelle commande
-                    this.createAndAddToNewOrder(quantity);
+                    
+                    this.createAndAddToNewOrder();
                 }
             },
             error: (err) => {
@@ -96,10 +97,11 @@ export class DetailedProductComponent implements OnInit {
 }
 
 // Fonction pour créer une nouvelle commande et y ajouter l'article
-private createAndAddToNewOrder(quantity: number): void {
-    this.cartService.createOrder(this.user!.id).subscribe({
+private createAndAddToNewOrder(): void {
+  
+    this.cartService.createOrder().subscribe({
         next: (newOrder) => {
-            this.cartService.addToCart(this.watch!.id, newOrder.id, quantity).subscribe({
+            this.cartService.addToCart(this.watch!.id, newOrder.id, 1).subscribe({
                 next: () => {
                     this.errorMessage = null;
                     alert('Article ajouté à la nouvelle commande avec succès.');

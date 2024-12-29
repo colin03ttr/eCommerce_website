@@ -306,35 +306,42 @@ router.get('/api/orders/:orderId', async (req: Request, res: Response) => {
     }
 });
 
+
 /**
  * @swagger
- * /api/orders/{orderId}/items:
+ * /api/orders/user/{userId}/pending:
  *   get:
- *     summary: Get items for a specific order
+ *     summary: Get a user's pending order
  *     tags:
  *       - Orders
  *     parameters:
  *       - in: path
- *         name: orderId
+ *         name: userId
  *         required: true
  *         schema:
- *           type: string
- *         description: The ID of the order.
+ *           type: integer
+ *         description: ID of the user
  *     responses:
  *       200:
- *         description: A list of items in the order.
+ *         description: The user's pending order
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Order'
  *       404:
- *         description: Order not found.
+ *         description: No pending orders found
  *       500:
- *         description: Server error.
+ *         description: Server error
  */
 router.get(
-    '/api/orders/:orderId/items',
-    async (req: Request<{ orderId: string }>, res: Response): Promise<void> => {
-      try {
-        const { orderId } = req.params;
+    '/api/orders/user/:userId/pending',
+    async (req: Request<{ userId: string }>, res: Response): Promise<void> => {
+      const { userId } = req.params;
   
-        const order = await Order.findByPk(orderId, {
+      try {
+        const order = await Order.findOne({
+          where: { userId: parseInt(userId, 10), status: 'pending' },
           include: [
             {
               model: OrderWatch,
@@ -345,14 +352,13 @@ router.get(
         });
   
         if (!order) {
-          res.status(404).json({ error: 'Order not found.' });
+          res.status(404).json({ error: 'No pending orders found.' });
           return;
         }
-        
   
-        res.status(200).json(order.items);
+        res.status(200).json(order);
       } catch (err) {
-        console.error('Error fetching order items:', err);
+        console.error('Error fetching pending order:', err);
         res.status(500).json({ error: 'Server error.' });
       }
     }

@@ -1,31 +1,36 @@
 <div class="cart-container">
+  <!-- Message d'erreur -->
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
+  <!-- Tableau AG Grid -->
   <ag-grid-angular
     *ngIf="!errorMessage && rowData.length > 0"
     style="width: 100%; height: 500px;"
     class="ag-theme-alpine"
     [rowData]="rowData"
     [columnDefs]="columnDefs"
+    [modules]="modules"
     [pagination]="true"
     [paginationPageSize]="10">
   </ag-grid-angular>
 
+  <!-- Message si aucune commande n'est disponible -->
   <div *ngIf="!errorMessage && rowData.length === 0" class="no-orders-message">
-    No items in the order
+    No items in your cart.
   </div>
 </div>
 
 <style>
   .cart-container {
-    margin: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+  margin: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 90%; /* Limitez la largeur du tableau à 90% de la page */
+}
 
   .error-message {
     color: red;
@@ -40,4 +45,14 @@
     margin-top: 20px;
     font-style: italic;
   }
+  .ag-theme-alpine {
+  --ag-header-height: 120px; /* Augmentez la hauteur de l'en-tête */
+  --ag-row-height: 500px;   /* Augmentez la hauteur des lignes */
+}
+.ag-theme-alpine .ag-cell img {
+  max-width: 100px; /* Largeur maximale des images */
+  max-height: 100px; /* Hauteur maximale des images */
+  object-fit: contain; /* Les images restent proportionnelles */
+  border-radius: 5px;
+}
 </style>

@@ -11,8 +11,8 @@ export class OrderService {
   
     constructor(private http: HttpClient) {}
   
-    createOrder(userId: number): Observable<OrderDTO> {
-      return this.http.post<OrderDTO>(`${this.baseUrl}`, { userId });
+    createOrder(): Observable<OrderDTO> {
+      return this.http.post<OrderDTO>(`${this.baseUrl}`, {  });
     }
   
     addWatchToOrder(orderId: number, watchId: number, quantity: number): Observable<void> {
