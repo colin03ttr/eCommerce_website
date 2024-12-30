@@ -21,8 +21,13 @@ Order.init({
         allowNull: false,
         defaultValue: 'pending',
     },
+    totalPrice: {
+        type: sequelize_1.DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0,
+    }
 }, {
     sequelize: sequelize_2.default,
-    modelName: 'Order',
+    modelName: 'order',
 });
 exports.default = Order;

@@ -3,7 +3,10 @@ export interface OrderDTO {
     userId: number;        
     items: OrderItemDTO[]; 
     totalPrice: number;    
-    status: string;        
+    status: string;    
+    createdAt: Date;
+    updatedAt: Date;
+
 }
 
 export interface OrderItemDTO {

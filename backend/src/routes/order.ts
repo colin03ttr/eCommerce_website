@@ -9,6 +9,8 @@ import User from '../models/user';
 const router = Router();
 Order.associate();
 OrderWatch.associate();
+
+
 /**
  * @swagger
  * /api/orders:
@@ -30,6 +32,7 @@ router.get('/api/orders', async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Failed to fetch orders.' });
     }
 });
+
 
 /**
  * @swagger
@@ -71,9 +74,9 @@ router.get('/api/orders/:id', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/orders/pending/{userId}:
+ * /api/orders/pending:
  *   get:
- *     summary: Retrieve a pending order for a user
+ *     summary: Retrieve all pending orders
  *     tags:
  *       - Orders
  *     parameters:
@@ -95,17 +98,16 @@ router.get('/api/orders/pending/:userId', async (req: Request, res: Response) =>
     const { userId } = req.params;
 
     try {
-        const pendingOrder = await Order.findOne({
+        const pendingOrders = await Order.findAll({
             where: {
-                userId,
                 status: 'pending',
             },
         });
 
-        if (pendingOrder) {
-            res.json(pendingOrder);
+        if (pendingOrders) {
+            res.json(pendingOrders);
         } else {
-            res.status(404).json({ message: 'No pending order found.' });
+            res.status(404).json({ message: 'No pending orders found.' });
         }
     } catch (err) {
         console.error('Error fetching pending order:', err);
@@ -245,34 +247,12 @@ router.post('/api/orders', async (req: Request, res: Response) => {
     }
 });
 
-/**
- * @swagger
- * /api/orders:
- *   get:
- *     summary: Retrieve all orders
- *     tags:
- *       - Orders
- *     responses:
- *       200:
- *         description: List of all orders
- *       500:
- *         description: Server error
- */
-router.get('/api/orders', async (req: Request, res: Response) => {
-    try {
-        const orders = await Order.findAll({ include: [{ model: OrderWatch, as: 'items' }] });
-        res.json(orders);
-    } catch (err) {
-        console.error('Error fetching orders:', err);
-        res.status(500).json({ error: 'Server error.' });
-    }
-});
 
 /**
  * @swagger
  * /api/orders/{orderId}:
  *   get:
- *     summary: Retrieve a specific order by ID
+ *     summary: Get a specific order by ID
  *     tags:
  *       - Orders
  *     parameters:
@@ -309,7 +289,7 @@ router.get('/api/orders/:orderId', async (req: Request, res: Response) => {
 
 /**
  * @swagger
- * /api/orders/user/{userId}/pending:
+ * /api/users/{userId}/orders/pending:
  *   get:
  *     summary: Get a user's pending order
  *     tags:
@@ -335,7 +315,7 @@ router.get('/api/orders/:orderId', async (req: Request, res: Response) => {
  *         description: Server error
  */
 router.get(
-    '/api/orders/user/:userId/pending',
+    '/api/users/:userId/orders/pending',
     async (req: Request<{ userId: string }>, res: Response): Promise<void> => {
       const { userId } = req.params;
   

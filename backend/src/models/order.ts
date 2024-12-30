@@ -6,6 +6,7 @@ class Order extends Model {
   public id!: number;
   public userId!: number;
   public status!: string;
+  public totalPrice!: number;
   public items!:OrderWatch[];
 
   public static associate() {
@@ -24,11 +25,16 @@ Order.init(
       allowNull: false,
       defaultValue: 'pending',
     },
+    totalPrice: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0,
+    }
     
   },
   {
     sequelize,
-    modelName: 'Order',
+    modelName: 'order',
   }
 );
 
