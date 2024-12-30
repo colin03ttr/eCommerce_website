@@ -331,4 +331,128 @@ router.get('/api/users/:userId/orders/pending', (req, res) => __awaiter(void 0, 
         res.status(500).json({ error: 'Server error.' });
     }
 }));
+/**
+* @swagger
+* /api/orders/finished:
+*   get:
+*     summary: Get all finished orders
+*     tags:
+*       - Orders
+*     responses:
+*       200:
+*         description: A list of all finished orders
+*         content:
+*           application/json:
+*             schema:
+*               type: array
+*               items:
+*                 $ref: '#/components/schemas/Order'
+*       500:
+*         description: Server error
+*/
+router.get('/api/orders/finished', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const finishedOrders = yield order_1.default.findAll({
+            where: { status: 'finished' },
+            include: [
+                {
+                    model: orderWatch_1.default,
+                    as: 'items',
+                    include: [{ model: watch_1.default, as: 'watch' }],
+                },
+            ],
+        });
+        if (!finishedOrders) {
+            res.status(404).json({ error: 'No finished orders found.' });
+            return;
+        }
+        res.status(200).json(finishedOrders);
+    }
+    catch (err) {
+        console.error('Error fetching finished orders:', err);
+        res.status(500).json({ error: 'Failed to fetch order.' });
+    }
+}));
+/**
+ * @swagger
+ * /api/orders/{orderId}/complete/{userId}:
+ *   post:
+ *     summary: Complete an order
+ *     tags:
+ *       - Orders
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the order to complete
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user completing the order
+ *     responses:
+ *       200:
+ *         description: Order completed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Order completed successfully.
+ *       400:
+ *         description: Invalid order, status, or insufficient balance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid order or status.
+ *       500:
+ *         description: Server error
+ */
+router.post('/api/orders/:orderId/complete/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { orderId, userId } = req.params;
+        const order = yield order_1.default.findByPk(orderId, {
+            include: [
+                {
+                    model: orderWatch_1.default,
+                    as: 'items',
+                },
+            ],
+        });
+        if (!order || order.status !== 'pending') {
+            res.status(400).json({ error: 'Invalid order or status.' });
+            return;
+        }
+        const totalPrice = yield Promise.all(order.items.map((item) => __awaiter(void 0, void 0, void 0, function* () {
+            const watch = yield watch_1.default.findByPk(item.watchId);
+            if (!watch) {
+                throw new Error(`Watch with ID ${item.watchId} not found.`);
+            }
+            return item.quantity * watch.price;
+        }))).then((prices) => prices.reduce((sum, price) => sum + price, 0));
+        const user = yield user_1.default.findByPk(userId);
+        if (!user || user.solde < totalPrice) {
+            res.status(400).json({ error: 'Insufficient balance.' });
+            return;
+        }
+        user.solde -= totalPrice;
+        yield user.save();
+        order.status = 'finished';
+        yield order.save();
+        res.status(200).json({ message: 'Order completed successfully.' });
+    }
+    catch (err) {
+        console.error('Error completing order:', err);
+        res.status(500).json({ error: 'Server error.' });
+    }
+}));
 exports.default = router;

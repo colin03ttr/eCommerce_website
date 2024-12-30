@@ -30,5 +30,9 @@ export class CartService {
   addToCart(watchId: number, orderId: number, quantity: number): Observable<void> {
     return this.http.post<void>(`/api/orders/${orderId}/add`, { watchId, quantity });
   }
-
+  completeOrder(orderId: number, userId: number): Observable<OrderDTO> {
+    return this.http.post<OrderDTO>(`/api/orders/${orderId}/complete/${userId}`, {});
+  }
+  
+  
 }

@@ -343,6 +343,148 @@ router.get(
       }
     }
   );
+
+  /**
+ * @swagger
+ * /api/orders/finished:
+ *   get:
+ *     summary: Get all finished orders
+ *     tags:
+ *       - Orders
+ *     responses:
+ *       200:
+ *         description: A list of all finished orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Order'
+ *       500:
+ *         description: Server error
+ */
+  router.get('/api/orders/finished', async (req: Request, res: Response) => {
+    try {
+      const finishedOrders = await Order.findAll({
+        where: { status: 'finished' },
+        include: [
+          {
+            model: OrderWatch,
+            as: 'items',
+            include: [{ model: Watch, as: 'watch' }],
+          },
+        ],
+      });
+  
+      if (!finishedOrders) {
+        res.status(404).json({ error: 'No finished orders found.' });
+        return;
+      }
+  
+      res.status(200).json(finishedOrders);
+    } catch (err) {
+      console.error('Error fetching finished orders:', err);
+      res.status(500).json({ error: 'Failed to fetch order.' });
+    }
+  });
+  
+/**
+ * @swagger
+ * /api/orders/{orderId}/complete/{userId}:
+ *   post:
+ *     summary: Complete an order
+ *     tags:
+ *       - Orders
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the order to complete
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user completing the order
+ *     responses:
+ *       200:
+ *         description: Order completed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Order completed successfully.
+ *       400:
+ *         description: Invalid order, status, or insufficient balance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Invalid order or status.
+ *       500:
+ *         description: Server error
+ */
+router.post(
+    '/api/orders/:orderId/complete/:userId',
+    async (req: Request, res: Response): Promise<void> => {
+      try {
+        const { orderId, userId } = req.params;
+  
+        const order = await Order.findByPk(orderId, {
+          include: [
+            {
+              model: OrderWatch,
+              as: 'items',
+            },
+          ],
+        });
+  
+        if (!order || order.status !== 'pending') {
+          res.status(400).json({ error: 'Invalid order or status.' });
+          return;
+        }
+  
+        const totalPrice = await Promise.all(
+          order.items.map(async (item) => {
+            const watch = await Watch.findByPk(item.watchId);
+            if (!watch) {
+              throw new Error(`Watch with ID ${item.watchId} not found.`);
+            }
+            return item.quantity * watch.price;
+          })
+        ).then((prices) => prices.reduce((sum, price) => sum + price, 0));
+  
+        const user = await User.findByPk(userId);
+  
+        if (!user || user.solde < totalPrice) {
+          res.status(400).json({ error: 'Insufficient balance.' });
+          return;
+        }
+  
+        user.solde -= totalPrice;
+        await user.save();
+  
+        order.status = 'finished';
+        await order.save();
+  
+        res.status(200).json({ message: 'Order completed successfully.' });
+      } catch (err) {
+        console.error('Error completing order:', err);
+        res.status(500).json({ error: 'Server error.' });
+      }
+    }
+  );
+  
+  
+  
   
   
 export default router;
