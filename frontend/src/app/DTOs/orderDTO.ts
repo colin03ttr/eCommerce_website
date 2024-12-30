@@ -1,3 +1,5 @@
+import { WatchDTO } from "./watchDTO";
+
 export interface OrderDTO {
     id: number;            
     userId: number;        
@@ -12,5 +14,6 @@ export interface OrderDTO {
 export interface OrderItemDTO {
     watchId: number;       
     quantity: number;      
-    price: number;         
+    price: number;   
+    watch?: WatchDTO | null; // Ajout de null      
 }

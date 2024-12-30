@@ -9,6 +9,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { ProfilePageComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminProductsComponent } from './admin-products/admin-products.component';
+import { MyOrdersComponent } from './myorders/myorders.component';
 import { CartComponent } from './cart/cart.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
@@ -27,6 +28,7 @@ export const routes: Routes = [
     {path: 'admin', component: AdminComponent },
     {path: 'admin/products', component: AdminProductsComponent },
     {path: 'admin/users', component: AdminUsersComponent },
-    {path: 'admin/orders', component: AdminOrdersComponent },
+    {path: 'admin/orders', component: AdminOrdersComponent },   
     {path: 'cart', component: CartComponent },
+    {path: 'myorders', component:MyOrdersComponent},
 ];

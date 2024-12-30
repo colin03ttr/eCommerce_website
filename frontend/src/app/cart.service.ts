@@ -38,6 +38,9 @@ export class CartService {
     return this.http.post<OrderDTO>(`/api/orders/${orderId}/complete/${userId}`, {});
   }
   
+  getUsersOrders(userId: number): Observable<OrderDTO[]> {
+    return this.http.get<OrderDTO[]>(`/api/users/${userId}/orders`);
+  }
   // Method to delete an order
   deleteOrder(orderId: number): Observable<void> {
     return this.http.delete<void>(`/api/orders/${orderId}`);

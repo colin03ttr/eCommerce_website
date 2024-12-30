@@ -1,0 +1,107 @@
+<div class="orders-container">
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Liste des commandes -->
+    <div *ngIf="!errorMessage && orders.length > 0">
+        <div class="order" *ngFor="let order of orders; let index = index">
+        <h3>Order {{ index + 1 }}</h3>
+        <p>Status: <strong>{{ order.status }}</strong></p>
+  
+        <div class="order-items">
+          <div class="order-item" *ngFor="let item of order.items">
+            <div class="item-image">
+              <img [src]="item.watch?.imageurl" alt="{{ item.watch?.name }}" />
+            </div>
+            <div class="item-details">
+              <h4>{{ item.watch?.name }}</h4>
+              <p>Price: ${{ item.watch?.price?.toFixed(2) || '0.00' }}</p>
+              <p>Quantity: {{ item.quantity }}</p>
+              <p>
+                Subtotal:
+                ${{ (item.quantity * (item.watch?.price || 0)).toFixed(2) }}
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <p class="order-total">
+          Total Price: <strong>${{ calculateTotal(order).toFixed(2) }}</strong>
+        </p>
+      </div>
+    </div>
+  
+    <!-- Message si aucune commande n'est disponible -->
+    <div *ngIf="!errorMessage && orders.length === 0" class="no-orders-message">
+      You have no orders to display.
+    </div>
+  </div>
+  
+  
+  <style>
+    .orders-container {
+      margin: 20px auto;
+      padding: 10px;
+      max-width: 800px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .error-message {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+  
+    .no-orders-message {
+      color: #555;
+      text-align: center;
+      margin-top: 20px;
+      font-style: italic;
+    }
+  
+    .order {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  
+    .order-items {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .order-item {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      border-bottom: 1px solid #eaeaea;
+      padding-bottom: 10px;
+    }
+  
+    .item-image img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+  
+    .item-details {
+      flex-grow: 1;
+    }
+  
+    .order-total {
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: right;
+    }
+  </style>
+  
