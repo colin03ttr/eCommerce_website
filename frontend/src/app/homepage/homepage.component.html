@@ -1,10 +1,22 @@
-
 <div class="background">
-    <h1 style="text-align: center; top: 40%; font-size: 700%; font-family: Garamond, serif; font-weight: bold; color: #000;">
-        WatchShop Website
-    </h1>
-    
+  <div class="content-container">
+    <h1 class="title">Discover Timeless Elegance</h1>
+    <p class="subtitle">Exclusive Watches for Every Moment</p>
+    <h2 class="featured-title">Featured Watches</h2>
+    <div class="watches-container">
+      <div class="watch-card" *ngFor="let watch of featuredWatches">
+        <img class="watch-image" [src]="watch.imageurl" [alt]="watch.name" />
+        <div class="watch-details">
+          <h3 class="watch-name">{{ watch.name }}</h3>
+          <p class="watch-price">Price: €{{ watch.price }}</p>
+          <p class="watch-brand">Brand: {{ watch.brand }}</p>
+          <button class="btn">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 <style>
 .background {
   background: url('https://st.depositphotos.com/1888461/3115/i/450/depositphotos_31152539-stock-illustration-abstract-background-grey-grunge-paper.jpg') no-repeat center center;
@@ -16,20 +28,97 @@
   position: relative;
 }
 
-.background::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100vh - 60px);
-  background-color: rgba(255, 255, 255, 0.3); /* Optional overlay */
-  z-index: 1;
-  pointer-events: none;
-}
-
-.background > * {
+.content-container {
   position: relative;
   z-index: 2;
+  text-align: center;
+  color: #000;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-family: Garamond, serif;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  margin-bottom: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.featured-title {
+  font-size: 2.2rem;
+  font-family: Arial, sans-serif;
+  margin-bottom: 40px;
+}
+
+.watches-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  justify-content: center;
+}
+
+.watch-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.watch-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.watch-image {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.watch-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.watch-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.watch-price,
+.watch-brand {
+  font-size: 1rem;
+  color: #555;
+}
+
+.btn {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+  background-color: #555;
+  transform: scale(1.1);
 }
 </style>
