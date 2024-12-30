@@ -1,6 +1,8 @@
 import sequelize from './sequelize'; 
 import Watch from './models/watch'; 
 import User from './models/user'; 
+import Order from './models/order';
+import OrderWatch from './models/orderWatch';
 import bcrypt from 'bcrypt';
 
 // Fonction pour insérer des données
@@ -10,20 +12,48 @@ const seedDatabase = async () => {
         await sequelize.sync();
         // Hachage du mot de passe
         const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash('admin', saltRounds);
-        await User.bulkCreate([
+        const hashedAdminPassword = await bcrypt.hash('admin', saltRounds);
+        // Create users
+        const users = await User.bulkCreate([
             {
                 name: 'admin',
                 email: 'admin@admin.fr',
-                password: hashedPassword,
+                password: hashedAdminPassword,
                 solde: 0,
                 creationdate: new Date(),
                 discount: 0,
                 isAdmin: true,
-            }
-        ])
-        // Insert data into the table
-        await Watch.bulkCreate([
+            },
+            {
+                name: 'John Doe',
+                email: 'john@example.com',
+                password: await bcrypt.hash('password123', saltRounds),
+                solde: 1000,
+                creationdate: new Date(),
+                discount: 10,
+                isAdmin: false,
+            },
+            {
+                name: 'Jane Smith',
+                email: 'jane@example.com',
+                password: await bcrypt.hash('password123', saltRounds),
+                solde: 2000,
+                creationdate: new Date(),
+                discount: 15,
+                isAdmin: false,
+            },
+            {
+                name: 'Mike Brown',
+                email: 'mike@example.com',
+                password: await bcrypt.hash('password123', saltRounds),
+                solde: 500,
+                creationdate: new Date(),
+                discount: 5,
+                isAdmin: false,
+            },
+        ]);
+        // Add Watches
+        const watches = await Watch.bulkCreate([
             {
                 name: 'Tissot Collection Gentleman',
                 description: 'Luxury watch',
@@ -173,6 +203,34 @@ const seedDatabase = async () => {
             }
         ]);
         
+        const nonAdminUsers = users.filter(user => !user.isAdmin);
+
+        // Create 15 finished orders
+        const orders = [];
+        for (let i = 0; i < 15; i++) {
+            const user = nonAdminUsers[i % nonAdminUsers.length]; // Distribute orders among users
+            const order = await Order.create({
+                userId: user.id,
+                status: 'finished',
+                totalPrice: 0,
+            });
+            orders.push(order);
+
+            // Add 2-3 watches to each order
+            const orderWatches = [];
+            for (let j = 0; j < 2 + Math.floor(Math.random() * 2); j++) {
+                const watch = watches[Math.floor(Math.random() * watches.length)];
+                const quantity = 1 + Math.floor(Math.random() * 3); // 1-3 watches per item
+                orderWatches.push({
+                    orderId: order.id,
+                    watchId: watch.id,
+                    quantity,
+                });
+                order.totalPrice += watch.price * quantity;
+            }
+            await OrderWatch.bulkCreate(orderWatches);
+            await order.save(); // Update the total price
+        }
 
         console.log('Data has been successfully inserted.');
         

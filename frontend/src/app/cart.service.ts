@@ -23,6 +23,10 @@ export class CartService {
     return this.http.get<OrderDTO>(`api/users/${userId}/orders/pending`, { headers });
   }
 
+  updateOrder(orderId: number, totalPrice: number): Observable<OrderDTO> {
+    return this.http.put<OrderDTO>(`/api/orders/${orderId}`, { totalPrice });
+  }
+
   createOrderForUser(infos: {userId: number, status: 'pending'}): Observable<OrderDTO> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

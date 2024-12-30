@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = __importDefault(require("./sequelize"));
 const watch_1 = __importDefault(require("./models/watch"));
 const user_1 = __importDefault(require("./models/user"));
+const order_1 = __importDefault(require("./models/order"));
+const orderWatch_1 = __importDefault(require("./models/orderWatch"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 // Fonction pour insérer des données
 const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,20 +25,48 @@ const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
         yield sequelize_1.default.sync();
         // Hachage du mot de passe
         const saltRounds = 10;
-        const hashedPassword = yield bcrypt_1.default.hash('admin', saltRounds);
-        yield user_1.default.bulkCreate([
+        const hashedAdminPassword = yield bcrypt_1.default.hash('admin', saltRounds);
+        // Create users
+        const users = yield user_1.default.bulkCreate([
             {
                 name: 'admin',
                 email: 'admin@admin.fr',
-                password: hashedPassword,
+                password: hashedAdminPassword,
                 solde: 0,
                 creationdate: new Date(),
                 discount: 0,
                 isAdmin: true,
-            }
+            },
+            {
+                name: 'John Doe',
+                email: 'john@example.com',
+                password: yield bcrypt_1.default.hash('password123', saltRounds),
+                solde: 1000,
+                creationdate: new Date(),
+                discount: 10,
+                isAdmin: false,
+            },
+            {
+                name: 'Jane Smith',
+                email: 'jane@example.com',
+                password: yield bcrypt_1.default.hash('password123', saltRounds),
+                solde: 2000,
+                creationdate: new Date(),
+                discount: 15,
+                isAdmin: false,
+            },
+            {
+                name: 'Mike Brown',
+                email: 'mike@example.com',
+                password: yield bcrypt_1.default.hash('password123', saltRounds),
+                solde: 500,
+                creationdate: new Date(),
+                discount: 5,
+                isAdmin: false,
+            },
         ]);
-        // Insert data into the table
-        yield watch_1.default.bulkCreate([
+        // Add Watches
+        const watches = yield watch_1.default.bulkCreate([
             {
                 name: 'Tissot Collection Gentleman',
                 description: 'Luxury watch',
@@ -185,6 +215,32 @@ const seedDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
                 brand: 'Casio',
             }
         ]);
+        const nonAdminUsers = users.filter(user => !user.isAdmin);
+        // Create 15 finished orders
+        const orders = [];
+        for (let i = 0; i < 15; i++) {
+            const user = nonAdminUsers[i % nonAdminUsers.length]; // Distribute orders among users
+            const order = yield order_1.default.create({
+                userId: user.id,
+                status: 'finished',
+                totalPrice: 0,
+            });
+            orders.push(order);
+            // Add 2-3 watches to each order
+            const orderWatches = [];
+            for (let j = 0; j < 2 + Math.floor(Math.random() * 2); j++) {
+                const watch = watches[Math.floor(Math.random() * watches.length)];
+                const quantity = 1 + Math.floor(Math.random() * 3); // 1-3 watches per item
+                orderWatches.push({
+                    orderId: order.id,
+                    watchId: watch.id,
+                    quantity,
+                });
+                order.totalPrice += watch.price * quantity;
+            }
+            yield orderWatch_1.default.bulkCreate(orderWatches);
+            yield order.save(); // Update the total price
+        }
         console.log('Data has been successfully inserted.');
         process.exit(0);
     }

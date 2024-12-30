@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { userService } from '../user.service';
 import { FormsModule } from '@angular/forms';
 import { UserDTO } from '../DTOs/userDTO';
+import { OrderDTO } from '../DTOs/orderDTO';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -13,6 +15,7 @@ import { UserDTO } from '../DTOs/userDTO';
 })
 export class AdminUsersComponent {
   private readonly userService = inject(userService);
+  private readonly cartService = inject(CartService);
   usersDTO: UserDTO[] = [];
   isFormVisible = false;
   newUser: { name: string; email: string; password: string } = {
@@ -20,6 +23,9 @@ export class AdminUsersComponent {
     email: '',
     password: ''
   };
+
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -31,6 +37,17 @@ export class AdminUsersComponent {
       next: (data) => {
         console.log('Loaded users successfully', data);
         this.usersDTO = data;
+        this.usersDTO.forEach(user => {
+          this.userService.getUserOrderSummary(user.id).subscribe({
+            next: (orderSummary) => {
+              user.numberOfOrders = orderSummary.count;
+              user.totalSpent = orderSummary.total;
+            },
+            error: (err) => {
+              console.error('Error loading user order summary', err);
+            }
+          });
+        });
       },
       error: (err) => {
         console.error('Error loading users', err);
@@ -103,6 +120,10 @@ export class AdminUsersComponent {
       this.usersDTO.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortOption === 'name_desc') {
       this.usersDTO.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sortOption === 'id_asc') {
+      this.usersDTO.sort((a, b) => a.id - b.id);
+    } else if (sortOption === 'id_desc') {
+      this.usersDTO.sort((a, b) => b.id - a.id);
     }
   }
 }

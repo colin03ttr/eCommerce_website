@@ -1,109 +1,131 @@
-<div class="admin-background">
-    <div class="container py-5">
-      <h1 class="text-center mb-4" style="font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 600; color: #333; text-transform: uppercase; letter-spacing: 2px; line-height: 1.2;">
-        Admin Panel: Orders
-      </h1>
-
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="d-flex align-items-center">
-          <label for="sortDropdown" class="form-label me-2" style="font-size: 16px; font-weight: 500;">Sort by:</label>
-          <select id="sortDropdown" class="form-select" style="width: auto;" (change)="sortOrders($event)">
-            <option value="">None</option>
-            <option value="date_asc">Date: Oldest to Newest</option>
-            <option value="date_desc">Date: Newest to Oldest</option>
-          </select>
+<div class="orders-container">
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Liste des commandes -->
+    <div *ngIf="!errorMessage && ordersDTO.length > 0">
+        <div class="order" *ngFor="let order of ordersDTO; let index = index">
+        <h3>Order ID: {{ order.id }}</h3>
+        <p>Status: <strong>{{ order.status }}</strong></p>
+        <p>Order Date: {{ order.createdAt | date: 'medium' }}</p>
+        <div class="row user-details">
+            <div class="col-md-6" style="width: fit-content;">
+                <span>User ID: {{order.user?.id}}</span>
+            </div>
+            <div class="col-md-6" style="width: fit-content;">
+                <span>Name: {{ order.user?.name }}</span>
+            </div>
+            <div class="col-md-6" style="width: fit-content;">
+                <span>Email: {{ order.user?.email }}</span>
+            </div>
         </div>
-        <button class="btn btn-success" style="font-size: 16px; width: fit-content;" (click)="toggleForm()">Add Order</button>
-      </div>
-
-      <!-- Add Order Form -->
-      <div class="card mb-4" id="addOrderForm" *ngIf="isFormVisible" style="padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
-        <h5 class="mb-3" style="font-size: 18px; font-weight: 600; color: #333;">Add New Order</h5>
-        <form (ngSubmit)="addOrder()">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="userId" class="form-label" style="font-size: 14px;">User ID</label>
-                <input type="number" id="userId" class="form-control" placeholder="Enter user ID" [(ngModel)]="newOrder.userId" name="userId">
-              </div>
+        <div class="order-items">
+          <div class="order-item" *ngFor="let item of order.items">
+            <div class="item-image">
+              <img [src]="item.watch?.imageurl" alt="{{ item.watch?.name }}" />
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
-
-      <div class="row">
-        <ul class="list-group w-100">
-          <li *ngFor="let order of ordersDTO" class="list-group-item">
-            <div class="row align-items-center">
-              <div class="col-md-3">
-                <p style="font-size: 14px; font-weight: 600;">Order ID: {{ order.id }}</p>
-                <p style="font-size: 14px;">User ID: {{ order.userId }}</p>
-              </div>
-              <div class="col-md-4">
-                <p style="font-size: 14px;">Status: {{ order.status }}</p>
-                <p style="font-size: 14px;">Total: ${{ order.totalPrice }}</p>
-                <p style="font-size: 14px;">Creation Date: {{ order.createdAt | date }}</p>
-                <p style="font-size: 14px;">LastUpdate: {{ order.updatedAt | date }}</p>
-              </div>
-              <div class="col-md-2 text-center">
-                <button class="btn btn-primary btn-sm mb-2" (click)="completeOrder(order.id, order.userId)">Complete</button>
-              </div>
-              <div class="col-md-2 text-center">
-                <button class="btn btn-danger btn-sm" (click)="confirmDelete(order.id)">Delete</button>
-              </div>
+            <div class="item-details">
+              <h4>{{ item.watch?.name }}</h4>
+              <p>Price: ${{ item.watch?.price?.toFixed(2) || '0.00' }}</p>
+              <p>Quantity: {{ item.quantity }}</p>
+              <p>
+                Subtotal:
+                ${{ (item.quantity * (item.watch?.price || 0)).toFixed(2) }}
+              </p>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
+  
+        <p class="order-total">
+          Total Price: <strong>${{ calculateTotal(order).toFixed(2) }}</strong>
+        </p>
       </div>
     </div>
+  
+    <!-- Message si aucune commande n'est disponible -->
+    <div *ngIf="!errorMessage && ordersDTO.length === 0" class="no-orders-message">
+      You have no orders to display.
+    </div>
   </div>
-
+  
+  
   <style>
-    .admin-background {
+    .orders-container {
+      margin: 20px auto;
+      padding: 10px;
+      max-width: 800px;
       background-color: #f9f9f9;
-      min-height: 100vh;
-      width: 100%;
-      padding: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
-    h1 {
-      font-family: 'Arial', sans-serif;
-      font-size: 32px;
+  
+    .error-message {
+      color: red;
       font-weight: bold;
-      color: #333;
-      text-transform: uppercase;
+      text-align: center;
+      margin-top: 20px;
     }
-
-    .list-group-item {
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-bottom: 10px;
+  
+    .no-orders-message {
+      color: #555;
+      text-align: center;
+      margin-top: 20px;
+      font-style: italic;
+    }
+  
+    .order {
+      margin-bottom: 20px;
       padding: 15px;
-      background-color: #fff;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    .btn {
-      font-size: 14px;
+    .user-details {
+        display: flex;
+        justify-content: flex-start;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        padding: 5px;
+        border-radius: 4px;
     }
-
-    .btn-primary {
-      background-color: #007bff;
-      border: none;
+  
+    .order-items {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ddd;
+        padding: 5px;
+        border-radius: 4px;
     }
-
-    .btn-primary:hover {
-      background-color: #0056b3;
+  
+    .order-item {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      border-bottom: 1px solid #eaeaea;
+      padding-bottom: 10px;
     }
-
-    .btn-danger {
-      background-color: #dc3545;
-      border: none;
+  
+    .item-image img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
     }
-
-    .btn-danger:hover {
-      background-color: #b21f2d;
+  
+    .item-details {
+      flex-grow: 1;
     }
-
-    .row {
-      margin-bottom: 15px;
+  
+    .order-total {
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: right;
     }
   </style>

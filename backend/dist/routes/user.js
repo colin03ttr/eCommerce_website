@@ -39,6 +39,44 @@ router.get('/api/users', (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(500).json({ message: 'Failed to fetch users.\n', error: err });
     }
 }));
+//Get a single user by id
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   get:
+ *     summary: Get a user by id.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: User id.
+ *     responses:
+ *       200:
+ *         description: User details.
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Server error.
+ */
+router.get('/api/users/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const user = yield user_1.default.findByPk(id);
+        if (user) {
+            res.json(user);
+        }
+        else {
+            res.status(404).json({ error: 'User not found.' });
+        }
+    }
+    catch (err) {
+        res.status(500).json({ message: 'Failed to fetch user.\n', error: err });
+    }
+}));
 // Get a single user by email
 /**
  * @swagger

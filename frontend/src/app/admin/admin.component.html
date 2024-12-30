@@ -1,15 +1,63 @@
 <div class="statistics-container">
-    <h2 class="text-center mb-4">Watches Statistics</h2>
-    <div *ngIf="chartOptions">
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [options]="chartOptions!"
-        style="width: 100%; height: 400px; display: block;">
-      </highcharts-chart>
+  <h1 class="text-center mb-4">Statistics</h1>
+
+  <!-- Charts Row 1: Price Range Distribution & Brand Distribution -->
+  <div class="row mb-5">
+    <div class="col-md-6">
+      <div *ngIf="priceRangeChartOptions">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="priceRangeChartOptions!"
+          style="width: 100%; height: 300px; display: block;">
+        </highcharts-chart>
+      </div>
+      <div *ngIf="!priceRangeChartOptions" class="text-center">
+        <p>Loading chart data...</p>
+      </div>
     </div>
-    <div *ngIf="!chartOptions" class="text-center">
-      <p>Loading chart data...</p>
+
+    <div class="col-md-6">
+      <div *ngIf="brandDistributionChartOptions">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="brandDistributionChartOptions!"
+          style="width: 100%; height: 300px; display: block;">
+        </highcharts-chart>
+      </div>
+      <div *ngIf="!brandDistributionChartOptions" class="text-center">
+        <p>Loading chart data...</p>
+      </div>
     </div>
+  </div>
+
+  <!-- Charts Row 2: Order Prices Over Time & Top 3 Spenders Podium -->
+  <div class="row mb-5">
+    <div class="col-md-6">
+      <div *ngIf="orderPriceChartOptions">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="orderPriceChartOptions!"
+          style="width: 100%; height: 300px; display: block;">
+        </highcharts-chart>
+      </div>
+      <div *ngIf="!orderPriceChartOptions" class="text-center">
+        <p>Loading chart data...</p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div *ngIf="topSpendersChartOptions">
+        <highcharts-chart
+          [Highcharts]="Highcharts"
+          [options]="topSpendersChartOptions!"
+          style="width: 100%; height: 300px; display: block;">
+        </highcharts-chart>
+      </div>
+      <div *ngIf="!topSpendersChartOptions" class="text-center">
+        <p>Loading chart data...</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -20,7 +68,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  h2 {
+  h1, h3 {
     font-family: 'Arial', sans-serif;
     color: #333;
   }
@@ -29,5 +77,17 @@
     text-align: center;
     font-family: 'Arial', sans-serif;
     color: #555;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .col-md-6 {
+    flex: 0 0 48%;
+    max-width: 48%;
+    margin-bottom: 20px;
   }
 </style>

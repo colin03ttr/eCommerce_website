@@ -61,6 +61,14 @@ export class CartComponent implements OnInit {
             this.rowData = order.items || [];
             this.errorMessage = null;
             this.calculateTotalPrice();
+            this.cartService.updateOrder(order.id,this.totalPrice).subscribe({
+              next: () => {
+                console.log('Order price updated successfully');
+              },
+              error: (err) => {
+                console.error('Error updating order:', err);
+              },
+            });
           } else {
             this.errorMessage = 'No pending orders found.';
           }

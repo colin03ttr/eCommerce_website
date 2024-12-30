@@ -6,6 +6,8 @@ export interface UserDTO {
     creationdate: Date;
     discount: number;
     isAdmin: boolean;
+    numberOfOrders: number;
+    totalSpent: number;
   }
   
   export class UserModel {
@@ -16,6 +18,8 @@ export interface UserDTO {
     creationdate: Date;
     discount: number;
     isAdmin: boolean;
+    numberOfOrders: number;
+    totalSpent: number;
     
   
     constructor(src: UserDTO) {
@@ -26,6 +30,8 @@ export interface UserDTO {
       this.creationdate = src.creationdate || Date.now;
       this.discount = src.discount || 0 ;
       this.isAdmin = src.isAdmin || false;
+      this.numberOfOrders = src.numberOfOrders || 0;
+      this.totalSpent = src.totalSpent || 0;
     }
     
   }

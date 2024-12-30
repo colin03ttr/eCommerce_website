@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, firstValueFrom } from 'rxjs';
 import { UserDTO } from './DTOs/userDTO';
 import { catchError } from 'rxjs/operators';
+import { CartService } from './cart.service';
 
 
 @Injectable({
@@ -10,11 +11,16 @@ import { catchError } from 'rxjs/operators';
 })
 export class userService {
   private readonly httpClient = inject(HttpClient);
+  private readonly cartService = inject(CartService);
   private readonly apiUrl = '/api/users';
 
 
   getusersDTO(): Observable<UserDTO[]> {
     return this.httpClient.get<UserDTO[]>('/api/users');
+  }
+
+  getUserById(id: number): Observable<UserDTO> {
+    return this.httpClient.get<UserDTO>(`/api/users/${id}`);
   }
 
   //post method to add a new user
@@ -72,6 +78,14 @@ export class userService {
       }
     });
   }
-  
+
+  getUserOrderSummary(userId: number): Observable<{ count: number; total: number }> {
+    return this.httpClient.get<{ count: number; total: number }>(`/api/users/${userId}/orders/summary`).pipe(
+      catchError(error => {
+        console.error('Error fetching order summary:', error);
+        return throwError(error);
+      })
+    );
+  }
 }
 

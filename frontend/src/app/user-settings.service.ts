@@ -92,7 +92,9 @@ export class UserSettingsService{
             solde: userInfo.solde,
             creationdate: userInfo.creationDate,
             discount: userInfo.discount,
-            isAdmin: userInfo.isAdmin
+            isAdmin: userInfo.isAdmin,
+            numberOfOrders: userInfo.numberOfOrders,
+            totalSpent: 0,
           }
       }catch (error) {
         console.error('Error retrieving user information:', error);

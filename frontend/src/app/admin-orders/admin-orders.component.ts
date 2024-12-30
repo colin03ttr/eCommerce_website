@@ -1,8 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../cart.service';
+import { WatchDTO } from '../DTOs/watchDTO';
+import { watchService } from '../watch.service';
+import { userService } from '../user.service';
 import { FormsModule } from '@angular/forms';
 import { OrderDTO } from '../DTOs/orderDTO';
+import { UserDTO } from '../DTOs/userDTO';
 
 @Component({
   selector: 'app-admin-orders',
@@ -13,8 +17,11 @@ import { OrderDTO } from '../DTOs/orderDTO';
 })
 export class AdminOrdersComponent implements OnInit {
   private readonly cartService = inject(CartService);
+  private readonly watchService = inject(watchService);
+  private readonly userService = inject(userService);
   ordersDTO: OrderDTO[] = [];
   isFormVisible = false;
+  errorMessage: string | null = null;
   newOrder: { userId: number; status: 'pending' } = {
     userId: 0,
     status: 'pending'
@@ -28,15 +35,60 @@ export class AdminOrdersComponent implements OnInit {
   loadOrders(): void {
     // Assuming an endpoint exists to fetch all orders (update service if necessary)
     this.cartService.getOrders().subscribe({
-      next: (data) => {
-        console.log('Loaded orders successfully', data);
-        this.ordersDTO = data;
+      next: async (orders) => {
+        this.ordersDTO = orders;
+
+        // Charger les montres pour tous les items des commandes
+        for (const order of this.ordersDTO) {
+          order.user = await this.loadUser(order.userId); // Associer user
+          for (const item of order.items) {
+            item.watch = await this.loadWatch(item.watchId); // Associer les montres
+          }
+        }
+
+        this.errorMessage = null;
       },
       error: (err) => {
-        console.error('Error loading orders', err);
-      }
+        console.error('Error fetching user orders or user:', err);
+        this.errorMessage = 'Failed to fetch your orders or user.';
+      },
     });
   }
+
+  async loadUser(userId: number): Promise<UserDTO | null> {
+    return new Promise((resolve) => {
+      this.userService.getUserById(userId).subscribe({
+        next: (data) => resolve(data),
+        error: (err) => {
+          console.error(`Error fetching user with ID ${userId}:`, err);
+          resolve(null); // Retourne null si une erreur survient
+        },
+      })
+    });
+  }
+
+  // Charger une montre par son ID
+  async loadWatch(watchId: number): Promise<WatchDTO | null> {
+    return new Promise((resolve) => {
+      this.watchService.getWatchById(watchId).subscribe({
+        next: (data) => resolve(data),
+        error: (err) => {
+          console.error(`Error fetching watch with ID ${watchId}:`, err);
+          resolve(null); // Retourne null si une erreur survient
+        },
+      });
+    });
+  }
+
+  calculateTotal(order: OrderDTO): number {
+    return order.items.reduce((sum, item) => {
+      if (item.watch && item.watch.price) {
+        return sum + item.quantity * item.watch.price;
+      }
+      return sum; // Ignore les items sans prix
+    }, 0);
+  }
+
 
   // Method to toggle the form visibility
   toggleForm(): void {

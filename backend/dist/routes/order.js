@@ -35,7 +35,15 @@ orderWatch_1.default.associate();
  */
 router.get('/api/orders', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const orders = yield order_1.default.findAll();
+        const orders = yield order_1.default.findAll({
+            include: [
+                {
+                    model: orderWatch_1.default,
+                    as: 'items',
+                    include: [{ model: watch_1.default, as: 'watch' }],
+                },
+            ],
+        });
         res.json(orders);
     }
     catch (err) {
@@ -548,6 +556,121 @@ router.delete('/api/orders/:orderId', (req, res) => __awaiter(void 0, void 0, vo
     }
     catch (err) {
         console.error('Error deleting order:', err);
+        res.status(500).json({ error: 'Server error.' });
+    }
+}));
+// Update an order by ID
+/**
+ * @swagger
+ * /api/orders/{orderId}:
+ *   put:
+ *     summary: Update an order by ID
+ *     tags:
+ *       - Orders
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the order to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               totalPrice:
+ *                 type: number
+ *                 description: The updated total price of the order.
+ *                 example: 10
+ *     responses:
+ *       200:
+ *         description: Order updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Order updated successfully.
+ *                 order:
+ *                   $ref: '#/components/schemas/Order'
+ *       400:
+ *         description: Invalid data or order not found
+ *       500:
+ *         description: Server error
+ */
+router.put('/api/orders/:orderId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    const { totalPrice } = req.body;
+    try {
+        const order = yield order_1.default.findByPk(orderId);
+        if (!order) {
+            res.status(400).json({ error: 'Order not found.' });
+            return;
+        }
+        order.totalPrice = totalPrice || order.totalPrice;
+        yield order.save();
+        res.status(200).json({ message: 'Order updated successfully.', order });
+    }
+    catch (err) {
+        console.error('Error updating order:', err);
+        res.status(500).json({ error: 'Server error.' });
+    }
+}));
+// Get the count and total spent by a user
+/**
+ * @swagger
+ * /api/users/{userId}/orders/summary:
+ *   get:
+ *     summary: Get the count and total spent by a user
+ *     tags:
+ *       - Orders
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the user
+ *     responses:
+ *       200:
+ *         description: Count and total spent by the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 count:
+ *                   type: integer
+ *                   example: 5
+ *                 total:
+ *                   type: number
+ *                   example: 100
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
+router.get('/api/users/:userId/orders/summary', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    try {
+        const user = yield user_1.default.findByPk(userId);
+        if (!user) {
+            res.status(404).json({ error: 'User not found.' });
+            return;
+        }
+        const [orderCount, totalSpent] = yield Promise.all([
+            order_1.default.count({ where: { userId } }),
+            order_1.default.sum('totalPrice', { where: { userId } }),
+        ]);
+        res.status(200).json({ count: orderCount, total: totalSpent || 0 });
+    }
+    catch (err) {
+        console.error('Error fetching order summary:', err);
         res.status(500).json({ error: 'Server error.' });
     }
 }));

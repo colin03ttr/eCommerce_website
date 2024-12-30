@@ -1,4 +1,5 @@
 import { WatchDTO } from "./watchDTO";
+import { UserDTO } from "./userDTO";
 
 export interface OrderDTO {
     id: number;            
@@ -8,7 +9,7 @@ export interface OrderDTO {
     status: string;    
     createdAt: Date;
     updatedAt: Date;
-
+    user?: UserDTO | null; // Ajout de any
 }
 
 export interface OrderItemDTO {
