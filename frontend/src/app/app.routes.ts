@@ -9,6 +9,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { ProfilePageComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminProductsComponent } from './admin-products/admin-products.component';
+import { MyOrdersComponent } from './myorders/myorders.component';
 
 import { prefix } from '@fortawesome/free-solid-svg-icons';
 import { CartComponent } from './cart/cart.component';
@@ -27,4 +28,5 @@ export const routes: Routes = [
     {path: 'admin', component: AdminComponent },
     {path: 'admin/products', component: AdminProductsComponent },
     {path: 'cart', component: CartComponent },
+    {path: 'myorders', component:MyOrdersComponent},
 ];

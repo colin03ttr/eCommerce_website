@@ -34,5 +34,8 @@ export class CartService {
     return this.http.post<OrderDTO>(`/api/orders/${orderId}/complete/${userId}`, {});
   }
   
+  getUsersOrders(userId: number): Observable<OrderDTO[]> {
+    return this.http.get<OrderDTO[]>(`/api/users/${userId}/orders`);
+  }
   
 }

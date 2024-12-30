@@ -15,6 +15,7 @@ import { UserDTO } from '../DTOs/userDTO';
   styleUrls: ['./menu-nav-bar.component.css']
 })
 export class MenuNavBarComponent implements OnInit, OnDestroy {
+
   faHome = faHome;
   faShoppingCart = faShoppingCart; // Icone pour le panier
   user: UserDTO | null = null;
@@ -54,4 +55,7 @@ export class MenuNavBarComponent implements OnInit, OnDestroy {
   goToCart(): void {
     this.router.navigate(['/cart']);
   }
+  goToorders():void {
+    this.router.navigate(['/myorders']);
+    }
 }

@@ -455,4 +455,62 @@ router.post('/api/orders/:orderId/complete/:userId', (req, res) => __awaiter(voi
         res.status(500).json({ error: 'Server error.' });
     }
 }));
+/**
+* @swagger
+* /api/users/{userId}/orders:
+*   get:
+*     summary: Get all orders of a user
+*     tags:
+*       - Orders
+*     parameters:
+*       - in: path
+*         name: userId
+*         required: true
+*         schema:
+*           type: integer
+*         description: ID of the user
+*     responses:
+*       200:
+*         description: List of orders for the user
+*         content:
+*           application/json:
+*             schema:
+*               type: array
+*               items:
+*                 $ref: '#/components/schemas/Order'
+*       404:
+*         description: User or orders not found
+*       500:
+*         description: Server error
+*/
+router.get('/api/users/:userId/orders', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        // Récupération des commandes associées à l'utilisateur
+        const orders = yield order_1.default.findAll({
+            where: { userId },
+            include: [
+                {
+                    model: orderWatch_1.default,
+                    as: 'items',
+                    include: [
+                        {
+                            model: watch_1.default,
+                            as: 'watch',
+                        },
+                    ],
+                },
+            ],
+        });
+        if (!orders || orders.length === 0) {
+            res.status(404).json({ error: 'No orders found for the user.' });
+            return;
+        }
+        res.status(200).json(orders);
+    }
+    catch (err) {
+        console.error('Error fetching user orders:', err);
+        res.status(500).json({ error: 'Server error.' });
+    }
+}));
 exports.default = router;
