@@ -3,20 +3,11 @@ import sequelize from './sequelize';
 import userRoutes from './routes/user';
 import watchRoutes from './routes/watch';
 import authRoutes from './routes/auth';
-import cartRoutes from './routes/cart';
+import orderRoutes from './routes/order';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import orderRoutes from './routes/order';
-
-// Chemin vers votre fichier `cartRouter.ts`
 
 
-
-
-
-
-import cart from './routes/cart';
-import Cart from './models/cart';
 const PORT = 3000;
 
 const app = express();
@@ -47,7 +38,7 @@ const options = {
         },
       },
     },
-    apis: ['./src/app.ts','./src/routes/auth.ts', './src/routes/user.ts', './src/routes/watch.ts','./src/routes/order.ts','./src/routes/cart.ts'],
+    apis: ['./src/app.ts','./src/routes/auth.ts', './src/routes/user.ts', './src/routes/watch.ts','./src/routes/order.ts'],
   };
 
 const specs = swaggerJSDoc(options);
@@ -61,9 +52,6 @@ app.get('/swagger.json', (req, res) => {
 app.use(userRoutes);
 app.use(watchRoutes);
 app.use(authRoutes);
-app.use(cartRoutes);
-app.use(orderRoutes);
-
 app.use(orderRoutes);
 
 

@@ -29,6 +29,7 @@ OrderWatch.init({
     },
 }, {
     sequelize: sequelize_2.default,
-    modelName: 'OrderWatch',
+    modelName: 'orderWatch',
+    timestamps: false,
 });
 exports.default = OrderWatch;

@@ -8,6 +8,7 @@ import { NgIf } from '@angular/common';
 import { AgGridModule } from 'ag-grid-angular';
 import { FormsModule } from '@angular/forms';
 import { ColDef } from 'ag-grid-community';
+import { OrderDTO } from '../DTOs/orderDTO';
 
 @Component({
   selector: 'app-detailed-product',
@@ -60,65 +61,97 @@ export class DetailedProductComponent implements OnInit {
     }
   }
 
-  addToOrder(quantity: number): void {
+  // function to attempt to add a watch to the cart, if error, then create a new order and add the watch to it
+  attemptToAddToCart(quantity: number): void {
     if (!this.user) {
-        this.errorMessage = 'Vous devez être connecté pour ajouter cet article à une commande.';
-        return;
+      this.errorMessage = 'Vous devez être connecté pour ajouter cet article à une commande.';
+      return;
     }
 
     if (this.watch) {
-        // Vérifie si l'utilisateur a une commande "pending"
-        this.cartService.getPendingOrder(this.user.id).subscribe({
-            next: (order) => {
-                if (order) {
-                    // Une commande "pending" existe, ajoutez l'article à cette commande
-                    this.cartService.addToCart(this.watch.id, order.id, quantity).subscribe({
-                        next: () => {
-                            this.errorMessage = null;
-                            alert('Article ajouté à la commande existante avec succès.');
-                        },
-                        error: (err) => {
-                            console.error('Erreur lors de l\'ajout à la commande existante :', err);
-                            this.errorMessage = 'Impossible d\'ajouter cet article à la commande existante.';
-                        },
-                    });
-                } else {
-                    // Aucune commande "pending", crée une nouvelle commande
-                    
-                    this.createAndAddToNewOrder();
-                }
-            },
-            error: (err) => {
-                console.error('Erreur lors de la vérification des commandes existantes :', err);
-                this.errorMessage = 'Impossible de vérifier les commandes existantes.';
-            },
-        });
-    }
-}
-
-// Fonction pour créer une nouvelle commande et y ajouter l'article
-private createAndAddToNewOrder(): void {
-  
-    this.cartService.createOrder().subscribe({
-        next: (newOrder) => {
-            this.cartService.addToCart(this.watch!.id, newOrder.id, 1).subscribe({
-                next: () => {
-                    this.errorMessage = null;
-                    alert('Article ajouté à la nouvelle commande avec succès.');
-                },
-                error: (err) => {
-                    console.error('Erreur lors de l\'ajout à la nouvelle commande :', err);
-                    this.errorMessage = 'Impossible d\'ajouter cet article à la nouvelle commande.';
-                },
+      this.cartService.getPendingOrder(this.user.id).subscribe({
+        next: (order) => {
+          if (order) {
+            console.log('Commande en cours trouvée, ajout de l\'article à la commande existante.');
+            this.cartService.addToCart(this.watch.id, order.id, quantity).subscribe({
+              next: () => {
+                this.errorMessage = null;
+                console.log('Article ajouté à la commande existante avec succès.');
+                alert('Article ajouté à la commande existante avec succès.');
+              },
+              error: (err) => {
+                console.error('Erreur lors de l\'ajout à la commande existante :', err);
+                this.errorMessage = 'Impossible d\'ajouter cet article à la commande existante.';
+              },
             });
+          } else {
+            this.createAndAddToNewOrder();
+          }
         },
         error: (err) => {
-            console.error('Erreur lors de la création de la commande :', err);
-            this.errorMessage = 'Impossible de créer une nouvelle commande.';
+          if(err.status === 404) {
+            console.log('Aucune commande en cours trouvée, création d\'une nouvelle commande.');
+            this.createAndAddToNewOrder();
+          }else {
+            console.error('Erreur lors de la vérification des commandes existantes :', err);
+            this.errorMessage = 'Impossible de vérifier les commandes existantes.';
+          }
         },
-    });
+      });
+    }
+  }
+
+// Fonction pour créer une nouvelle commande et y ajouter l'article
+createAndAddToNewOrder(): void {
+  if (!this.user) {
+      this.errorMessage = 'Vous devez être connecté pour ajouter cet article à une commande.';
+      window.alert(this.errorMessage);
+      return;
+  }
+  let order: OrderDTO;
+
+  this.cartService.createOrderForUser({ userId: this.user.id, status: 'pending' }).subscribe({
+    next: () => {
+      console.log('Commande créée avec succès.');
+      this.addToOrder();
+    },
+    error: (err) => {
+      console.error('Erreur lors de la création de la commande :', err);
+      this.errorMessage = 'Impossible de créer une nouvelle commande.';
+    },
+  });
 }
 
+addToOrder(): void {
+  if (!this.user) {
+    this.errorMessage = 'Vous devez être connecté pour ajouter cet article à une commande.';
+    return;
+  }
+  if (this.watch) {
+    this.cartService.getPendingOrder(this.user.id).subscribe({
+      next: (order) => {
+        if (order) {
+          console.log('Commande en cours trouvée, ajout de l\'article à la commande existante.');
+          this.cartService.addToCart(this.watch.id, order.id, 1).subscribe({
+            next: () => {
+              this.errorMessage = null;
+              console.log('Article ajouté à la commande existante avec succès.');
+              alert('Article ajouté à la commande existante avec succès.');
+            },
+            error: (err) => {
+              console.error('Erreur lors de l\'ajout à la commande existante :', err);
+              this.errorMessage = 'Impossible d\'ajouter cet article à la commande existante.';
+            },
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Erreur lors de la vérification des commandes existantes :', err);
+        this.errorMessage = 'Impossible de vérifier les commandes existantes.';
+      },
+    });
+  }
+}
 
   goBack(): void {
     window.history.back();

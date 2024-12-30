@@ -81,9 +81,9 @@ router.get('/api/orders/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
 }));
 /**
  * @swagger
- * /api/orders/pending/{userId}:
+ * /api/orders/pending:
  *   get:
- *     summary: Retrieve a pending order for a user
+ *     summary: Retrieve all pending orders
  *     tags:
  *       - Orders
  *     parameters:
@@ -104,17 +104,16 @@ router.get('/api/orders/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
 router.get('/api/orders/pending/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     try {
-        const pendingOrder = yield order_1.default.findOne({
+        const pendingOrders = yield order_1.default.findAll({
             where: {
-                userId,
                 status: 'pending',
             },
         });
-        if (pendingOrder) {
-            res.json(pendingOrder);
+        if (pendingOrders) {
+            res.json(pendingOrders);
         }
         else {
-            res.status(404).json({ message: 'No pending order found.' });
+            res.status(404).json({ message: 'No pending orders found.' });
         }
     }
     catch (err) {
@@ -246,32 +245,9 @@ router.post('/api/orders', (req, res) => __awaiter(void 0, void 0, void 0, funct
 }));
 /**
  * @swagger
- * /api/orders:
- *   get:
- *     summary: Retrieve all orders
- *     tags:
- *       - Orders
- *     responses:
- *       200:
- *         description: List of all orders
- *       500:
- *         description: Server error
- */
-router.get('/api/orders', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const orders = yield order_1.default.findAll({ include: [{ model: orderWatch_1.default, as: 'items' }] });
-        res.json(orders);
-    }
-    catch (err) {
-        console.error('Error fetching orders:', err);
-        res.status(500).json({ error: 'Server error.' });
-    }
-}));
-/**
- * @swagger
  * /api/orders/{orderId}:
  *   get:
- *     summary: Retrieve a specific order by ID
+ *     summary: Get a specific order by ID
  *     tags:
  *       - Orders
  *     parameters:
@@ -306,7 +282,7 @@ router.get('/api/orders/:orderId', (req, res) => __awaiter(void 0, void 0, void 
 }));
 /**
  * @swagger
- * /api/orders/user/{userId}/pending:
+ * /api/users/{userId}/orders/pending:
  *   get:
  *     summary: Get a user's pending order
  *     tags:
@@ -331,7 +307,7 @@ router.get('/api/orders/:orderId', (req, res) => __awaiter(void 0, void 0, void 
  *       500:
  *         description: Server error
  */
-router.get('/api/orders/user/:userId/pending', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/api/users/:userId/orders/pending', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     try {
         const order = yield order_1.default.findOne({

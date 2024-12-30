@@ -34,7 +34,8 @@ OrderWatch.init(
   },
   {
     sequelize,
-    modelName: 'OrderWatch',
+    modelName: 'orderWatch',
+    timestamps: false,
   }
 );
 

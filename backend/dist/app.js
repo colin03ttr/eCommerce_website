@@ -8,10 +8,9 @@ const sequelize_1 = __importDefault(require("./sequelize"));
 const user_1 = __importDefault(require("./routes/user"));
 const watch_1 = __importDefault(require("./routes/watch"));
 const auth_1 = __importDefault(require("./routes/auth"));
-const cart_1 = __importDefault(require("./routes/cart"));
+const order_1 = __importDefault(require("./routes/order"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const order_1 = __importDefault(require("./routes/order"));
 const PORT = 3000;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -38,7 +37,7 @@ const options = {
             },
         },
     },
-    apis: ['./src/app.ts', './src/routes/auth.ts', './src/routes/user.ts', './src/routes/watch.ts', './src/routes/order.ts', './src/routes/cart.ts'],
+    apis: ['./src/app.ts', './src/routes/auth.ts', './src/routes/user.ts', './src/routes/watch.ts', './src/routes/order.ts'],
 };
 const specs = (0, swagger_jsdoc_1.default)(options);
 //console.log(specs);
@@ -51,8 +50,6 @@ app.get('/swagger.json', (req, res) => {
 app.use(user_1.default);
 app.use(watch_1.default);
 app.use(auth_1.default);
-app.use(cart_1.default);
-app.use(order_1.default);
 app.use(order_1.default);
 /**
  * @openapi
