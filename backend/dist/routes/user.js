@@ -229,4 +229,42 @@ router.get('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).json({ message: 'Failed to fetch user.' });
     }
 }));
+// Delete a user by email
+/**
+ * @swagger
+ * /api/users/{email}:
+ *   delete:
+ *     summary: Delete a user by email.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User email.
+ *     responses:
+ *       200:
+ *         description: User deleted successfully.
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Server error.
+ */
+router.delete('/api/users/:email', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.params;
+    try {
+        const deleted = yield user_1.default.destroy({ where: { email } });
+        if (deleted) {
+            res.json({ message: 'User deleted successfully.' });
+        }
+        else {
+            res.status(404).json({ error: 'User not found.' });
+        }
+    }
+    catch (err) {
+        res.status(500).json({ message: 'Failed to delete user.\n', error: err });
+    }
+}));
 exports.default = router;

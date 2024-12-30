@@ -455,4 +455,42 @@ router.post('/api/orders/:orderId/complete/:userId', (req, res) => __awaiter(voi
         res.status(500).json({ error: 'Server error.' });
     }
 }));
+//delete an order by id
+/**
+ * @swagger
+ * /api/orders/{orderId}:
+ *   delete:
+ *     summary: Delete an order by ID
+ *     tags:
+ *       - Orders
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Order deleted successfully
+ *       404:
+ *         description: Order not found
+ *       500:
+ *         description: Server error
+ */
+router.delete('/api/orders/:orderId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    try {
+        const order = yield order_1.default.findByPk(orderId);
+        if (!order) {
+            res.status(404).json({ error: 'Order not found.' });
+            return;
+        }
+        yield order.destroy();
+        res.status(200).json({ message: 'Order deleted successfully.' });
+    }
+    catch (err) {
+        console.error('Error deleting order:', err);
+        res.status(500).json({ error: 'Server error.' });
+    }
+}));
 exports.default = router;

@@ -12,6 +12,10 @@ export class CartService {
     private http: HttpClient
   ) {}
 
+  getOrders(): Observable<OrderDTO[]> {
+    return this.http.get<OrderDTO[]>('/api/orders');
+  }
+
   getPendingOrder(userId: number): Observable<OrderDTO> {
     const headers = new HttpHeaders({
       'accept': 'application/json'
@@ -34,5 +38,9 @@ export class CartService {
     return this.http.post<OrderDTO>(`/api/orders/${orderId}/complete/${userId}`, {});
   }
   
+  // Method to delete an order
+  deleteOrder(orderId: number): Observable<void> {
+    return this.http.delete<void>(`/api/orders/${orderId}`);
+  }
   
 }
