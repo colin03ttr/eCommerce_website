@@ -51,6 +51,9 @@ const JWT_SECRET = '71c08c0e94e1fb75b31733d23416714071e039664965176b85880f8925ab
  *                       type: string
  *                     email:
  *                       type: string
+ * 
+ *                      id_user: string
+ *                          type: string
  *       400:
  *         description: Missing email or password.
  *       404:
