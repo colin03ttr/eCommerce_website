@@ -109,7 +109,7 @@ export class AdminComponent implements OnInit {
       title: { text: 'Distribution of Watches by Price Range' },
       xAxis: {
         categories: ['10 to 50', '51 to 250', '251 to 500', '501 to 2000', '2001 to 10000', '10001 and more'],
-        title: { text: 'Price Ranges (€)' },
+        title: { text: 'Price Ranges ($)' },
       },
       yAxis: {
         min: 0,
@@ -157,7 +157,7 @@ export class AdminComponent implements OnInit {
       chart: { type: 'scatter' },
       title: { text: 'Order Total Prices Over Time' },
       xAxis: { type: 'datetime', title: { text: 'Date' } },
-      yAxis: { title: { text: 'Total Price (€)' } },
+      yAxis: { title: { text: 'Total Price ($)' } },
       series: [{ name: 'Orders', data: priceData, type: 'scatter' }],
       credits: { enabled: false },
     };
@@ -187,7 +187,7 @@ export class AdminComponent implements OnInit {
         title: { text: 'Users' },
       },
       yAxis: {
-        title: { text: 'Total Spent (€)' },
+        title: { text: 'Total Spent ($)' },
       },
       series: [
         {
@@ -216,7 +216,7 @@ export class AdminComponent implements OnInit {
         title: { text: 'Users' },
       },
       yAxis: {
-        title: { text: 'Total Spent (€)' },
+        title: { text: 'Total Spent ($)' },
       },
       series: [
         {

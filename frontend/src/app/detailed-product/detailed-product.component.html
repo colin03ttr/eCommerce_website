@@ -10,7 +10,7 @@
             <p class="watch-price"><span>${{ watch.price.toFixed(2) }}</span></p>
             <p><strong class="brand-label">Brand: </strong> <span class="watch-brand">{{ watch.brand }}</span></p>
             
-            <button class="btn-add-to-order" (click)="attemptToAddToCart(1)">Ajouter à la commande</button>
+            <button class="btn-add-to-order" (click)="attemptToAddToCart(1)">Add to order</button>
         </div>
     </div>
     <div *ngIf="!watch">

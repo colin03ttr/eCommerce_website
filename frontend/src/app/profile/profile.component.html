@@ -17,9 +17,9 @@
             <input type="number" id="discount" class="form-control" name="discount" [(ngModel)]="user.discount" disabled>
           </div>
           <div class="form-group mb-3" *ngIf="this.user">
-            <label for="solde" class="form-label">Solde</label>
+            <label for="solde" class="form-label">Balance</label>
             <div class="input-group">
-              <input type="number" id="solde" class="form-control" name="solde" placeholder="{{this.user.solde}} €" disabled>
+              <input type="number" id="solde" class="form-control" name="solde" placeholder="{{this.user.solde}} $" disabled>
               <input type="number" class="form-control" value="0" name="money" #moneyInput min="0"> 
               <button class="btn btn-dark" style="font-size: 16px; padding: 10px 20px; border-radius: 5px;" (click)="addMoney(+moneyInput.value)">Add Money</button>
             </div>
@@ -28,7 +28,7 @@
             <button class="btn btn-dark" style="font-size: 16px; padding: 10px 20px; border-radius: 12px;" id="submit-btn" type="submit" [hidden]="!formChanged">Submit</button>
           </div>
           <div>
-            <p *ngIf="soldeVisible" class="alert alert-info">Your solde: {{ user?.solde }} €</p>
+            <p *ngIf="soldeVisible" class="alert alert-info">Your Balance: {{ user?.solde }} $</p>
             <p *ngIf="discountVisible" class="alert alert-success">Your discount: {{ user?.discount }}%</p>
           </div>
         </form>

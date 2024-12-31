@@ -9,12 +9,13 @@ export interface OrderDTO {
     status: string;    
     createdAt: Date;
     updatedAt: Date;
-    user?: UserDTO | null; // Ajout de any
+    user : UserDTO | null;
+
 }
 
 export interface OrderItemDTO {
     watchId: number;       
     quantity: number;      
     price: number;   
-    watch?: WatchDTO | null; // Ajout de null      
+    watch?: WatchDTO | null;     
 }
