@@ -57,7 +57,9 @@ export class HomepageComponent implements OnInit {
     });
   }
 
-  viewWatchDetails(watchId: number): void {
-    this.router.navigate([`/products/${watchId}`]);
-  }
+ // Méthode pour afficher les détails d'un produit
+ viewDetails(productid: number): void {
+  console.log('Voir les détails du produit :', productid);
+  this.router.navigate([`/detailed-product/${productid}`]);
+}
 }

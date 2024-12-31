@@ -10,7 +10,7 @@
           <h3 class="watch-name">{{ watch.name }}</h3>
           <p class="watch-price">Price: €{{ watch.price }}</p>
           <p class="watch-brand">Brand: {{ watch.brand }}</p>
-          <button class="btn">View Details</button>
+          <button class="btn" (click)="viewDetails(watch.id)">View Details</button>
         </div>
       </div>
     </div>
